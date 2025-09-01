@@ -1,10 +1,9 @@
 import mkdocs_gen_files
-from pathlib import Path
+import shutil
 
-index_path = Path("docs/tmp/index.md")
-if not index_path.exists():
-    with mkdocs_gen_files.open(index_path, "w") as f:
-        f.write("# 🧬 Hydrated Templates\n\n")
-        f.write("This page was auto-generated during build.\n\n")
-        f.write("Use the hydration workflow to populate this folder.\n")
-    mkdocs_gen_files.set_edit_path(index_path, "docs/tmp/index.md")
+# Copy the main index page from the safe templates directory
+try:
+    shutil.copyfile("docs/templates/index.md", "docs/tmp/index.md")
+    mkdocs_gen_files.set_edit_path("docs/tmp/index.md", "docs/templates/index.md")
+except FileNotFoundError:
+    print("Warning: docs/templates/index.md not found.")
