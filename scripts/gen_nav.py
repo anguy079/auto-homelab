@@ -1,21 +1,17 @@
-from pathlib import Path
 import yaml
+from pathlib import Path
 
 mkdocs_path = Path("mkdocs.yml")
 
-folder_icons = {
-    "radarr": ":radarr:{ .radarr-icon }",
-    "sonarr": ":sonarr:{ .sonarr-icon }",
-    "plex": ":plex:{ .plex-icon }",
-    "_root": ":file:"
-}
-
-file_icons = {
-    "sync": ":link:",
-    "fork": ":fork:",
-    "onboard": ":rocket:",
-    "guide": ":book:"
-}
+# Load data from the central YAML file
+try:
+    with open("data/services.yml", "r") as f:
+        data = yaml.safe_load(f)
+    folder_icons = data.get("folder_icons", {})
+    file_icons = data.get("file_icons", {})
+except (IOError, yaml.YAMLError) as e:
+    print(f"Error reading data/services.yml: {e}")
+    folder_icons, file_icons = {}, {}
 
 grouped = {}
 for path in sorted(Path("docs/tmp").rglob("*.md")):
@@ -41,7 +37,9 @@ for folder, entries in grouped.items():
         folder_title = folder_icons.get(folder.lower(), f":folder: {folder.title()}")
         nav.append({folder_title: entries})
 
-# Use yaml.load with FullLoader to handle Python-specific tags
-config = yaml.load(mkdocs_path.read_text(), Loader=yaml.FullLoader)
-config["nav"] = nav
-mkdocs_path.write_text(yaml.dump(config, sort_keys=False))
+try:
+    config = yaml.load(mkdocs_path.read_text(), Loader=yaml.FullLoader)
+    config["nav"] = nav
+    mkdocs_path.write_text(yaml.dump(config, sort_keys=False))
+except (IOError, yaml.YAMLError) as e:
+    print(f"Error processing mkdocs.yml: {e}")
