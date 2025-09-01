@@ -3,8 +3,8 @@
 [![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](/.github/workflows/hydrate.yml)
 ![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
 
-🕒 Hydrated: **Sept 1 @ 04:28 PDT**
-⏳ Expires in: **24h**  
+🕒 Hydrated: **Sept 1 @ 04:28 PDT**  
+⏳ Expires in: **24h**
 
 ---
 
@@ -12,11 +12,45 @@
 
 This repo provides modular, privacy-safe templates for onboarding, hydration, and deployment using MkDocs and GitHub Actions.
 
-
 ## 🧪 Getting Started
 
-To learn how to use this repo, hydrate files, and trigger cleanup:
+To hydrate and deploy your docs:
 
-➡️ [View full guide](docs/mkdocs/README.md)
+### ✅ Requirements
+
+- [Set GitHub Pages source to GitHub Actions](https://github.com/anguy079/auto-homelab/settings/pages)
+- Ensure repo is [public for free hosting](https://github.com/anguy079/auto-homelab)
+- Include:
+  - [`mkdocs.yml`](./mkdocs.yml)
+  - [`requirements.txt`](./requirements.txt)
+  - [`hydrate.yml`](./.github/workflows/hydrate.yml)
 
 ---
+
+### 🚀 Trigger Hydration
+
+Click the button below to hydrate and deploy for 24h:
+
+[![Hydrate](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+
+> You can override the timer or trigger cleanup manually via the Actions tab.
+
+---
+
+### ⏱️ Displaying Countdown in Hydrated Pages
+
+Add this to any `.md` file:
+
+```html
+<div id="countdown"></div>
+<script>
+  const endTime = new Date("{{ COUNTDOWN_END }}");
+  const countdown = document.getElementById("countdown");
+  setInterval(() => {
+    const now = new Date();
+    const diff = endTime - now;
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+  }, 60000);
+</script>
