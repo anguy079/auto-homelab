@@ -3,28 +3,3 @@ mkdocs-material[recommended,imaging]>=9.5.0
 mkdocs-macros-plugin>=1.0.5
 mkdocs-gen-files>=0.5.0
 git+https://github.com/anguy079/mkdocs-copy.git
-
-
-# Core MkDocs packages
-#mkdocs
-
-# Plugin: Variable substitution
-#mkdocs-macros-plugin
-
-# Plugin: Copy and relocate hydrated files
-#mkdocs-copy
-
-# Optional: Generate files dynamically during build
-#mkdocs-gen-files
-
-# Optional: Theme extensions (icons, image handling)
-#mkdocs-material[recommended,imaging]
-
-# Optional: Markdown extensions (tables, footnotes, etc.)
-# pymdown-extensions
-
-# Optional: Syntax highlighting for code blocks
-# pygments
-
-# Optional: Spellcheck or linting tools
-# mkdocs-spellcheck
