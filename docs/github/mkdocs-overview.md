@@ -269,3 +269,52 @@ Click the button below to hydrate and deploy for 24h:
 > 🔧 GitHub doesn’t support one-click toggling of Pages source — it must be set manually in [Settings → Pages](https://github.com/anguy079/auto-homelab/settings/pages).
 
 ---
+
+## ⏱️ Displaying Timer in Both Hydrated Page & README
+
+### ✅ In Hydrated Page (via MkDocs Macros)
+
+1. Add this to `mkdocs.yml`:
+   ```yaml
+   extra:
+     COUNTDOWN_END: "2025-09-02T03:00:00Z"
+   ```
+
+2. In your Markdown file (e.g. `tmp/template-forking.md`):
+   ```html
+   <div id="countdown"></div>
+   <script>
+     const endTime = new Date("{{ COUNTDOWN_END }}");
+     const countdown = document.getElementById("countdown");
+     setInterval(() => {
+       const now = new Date();
+       const diff = endTime - now;
+       const hours = Math.floor(diff / 3600000);
+       const minutes = Math.floor((diff % 3600000) / 60000);
+       countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+     }, 60000);
+   </script>
+   ```
+
+This will render a live countdown on the hydrated page.
+
+---
+
+### ✅ In `README.md` (Static Timestamp + Status Badge)
+
+You can’t run JavaScript in `README.md`, but you can show:
+
+- A hydration status badge
+- A static timestamp (updated manually or via GitHub Actions)
+
+```markdown
+### 🚀 Hydration Status
+
+![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)  
+🕒 Hydrated on: **Sept 1, 2025 @ 04:07 PDT**  
+⏳ Expires in: **24h** (auto-cleanup scheduled)
+```
+
+> You can automate the timestamp update using a GitHub Action that commits the updated `README.md` when hydration is triggered.
+
+---
