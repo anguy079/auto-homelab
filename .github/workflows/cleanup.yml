@@ -59,7 +59,7 @@ jobs:
           git rm -rf --ignore-unmatch docs/tmp/*
           mkdir -p docs/tmp/
           touch docs/tmp/.gitkeep
-          git add docs/tmp/.gitkeep
+          git add -f docs/tmp/.gitkeep
           sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **Not active**|" README.md
           sed -i "s|⏳ Expires in: .*|⏳ Expires in: **Expired**|" README.md
           git config user.name "GitHub Actions"
