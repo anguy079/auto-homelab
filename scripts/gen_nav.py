@@ -46,7 +46,7 @@ for folder, entries in grouped.items():
         nav.extend(entries)
     else:
         folder_icon = folder_icons.get(folder.lower(), ":folder:")
-        folder_title = f"{folder_icon} {folder.title()}"
+        folder_title = f"{folder_icon} {folder.title()}{{ .{folder.lower()}-icon }}"
         nav.append({folder_title: entries})
 
 # Load existing mkdocs.yml
