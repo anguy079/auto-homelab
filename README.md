@@ -3,8 +3,8 @@
 [![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](/.github/workflows/hydrate.yml)
 ![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
 
-🕒 Hydrated on: **Sep 01, 2025 @ 19:52 UTC**
-⏳ Expires in: **24h 0m** (auto-cleanup scheduled)
+🕒 Hydrated on: **Not active**
+⏳ Expires in: **Expired**
 
 ---
 
