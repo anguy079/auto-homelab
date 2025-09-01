@@ -210,3 +210,65 @@ You can add buttons to your root `README.md` like:
 > You can also use GitHub’s [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch) to trigger hydration manually.
 
 ---
+---
+---
+
+---
+
+## ⏱️ Live Countdown Recommendation
+
+For a **live countdown that refreshes on page reload**, your best option is:
+
+### ✅ GitHub Pages + JavaScript Timer
+
+- Add a small HTML/JS snippet to your hydrated page:
+  ```html
+  <div id="countdown"></div>
+  <script>
+    const endTime = new Date("2025-09-02T03:00:00Z"); // set dynamically
+    const countdown = document.getElementById("countdown");
+    setInterval(() => {
+      const now = new Date();
+      const diff = endTime - now;
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+    }, 60000);
+  </script>
+  ```
+
+- You can inject this via MkDocs macros or include it in a custom HTML block.
+
+---
+
+## 🧩 “Getting Started” Snippet for `README.md`
+
+```markdown
+## 🧪 Getting Started
+
+To hydrate and deploy your docs:
+
+### ✅ Requirements
+
+- [Set GitHub Pages source to GitHub Actions](https://github.com/anguy079/auto-homelab/settings/pages)
+- Ensure repo is [public for free hosting](https://github.com/anguy079/auto-homelab)
+- Include:
+  - [`mkdocs.yml`](https://github.com/anguy079/auto-homelab/blob/main/mkdocs.yml)
+  - [`requirements.txt`](https://github.com/anguy079/auto-homelab/blob/main/requirements.txt)
+  - [`hydrate.yml`](https://github.com/anguy079/auto-homelab/blob/main/.github/workflows/hydrate.yml)
+
+### 🚀 Trigger Hydration
+
+Click the button below to hydrate and deploy for 24h:
+
+[![Hydrate](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+
+> You can override the timer or trigger cleanup manually via the Actions tab.
+```
+
+> 🔧 GitHub doesn’t support one-click toggling of Pages source — it must be set manually in [Settings → Pages](https://github.com/anguy079/auto-homelab/settings/pages).
+
+---
+
+Let me know if you’d like help injecting the countdown timer into your hydrated page or modularizing this setup for multiple services like `radarr`, `sonarr`, etc.
+
