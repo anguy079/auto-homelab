@@ -18,7 +18,7 @@ jobs:
       - name: Install MkDocs & Plugins
         run: |
           pip install -r requirements.txt
-          pip install git+https://github.com/chikamichi/mkdocs-copy.git
+          pip install git+https://github.com/anguy079/mkdocs-copy.git
 
       - name: Build Hydrated Docs
         run: mkdocs build -f mkdocs.yml
