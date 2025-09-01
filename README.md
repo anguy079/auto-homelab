@@ -1,8 +1,9 @@
 ### 🚀 Hydration Actions
 
-[![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
+[![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
 
-[![View Temporary Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://<GH_USERNAME>.github.io/<REPO>/tmp/template-forking/)
+[![View Temporary Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
+
 
 ## 🧩 Step 1: Requirements
 
