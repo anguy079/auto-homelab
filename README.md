@@ -54,3 +54,12 @@ Add this to any `.md` file:
     countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
   }, 60000);
 </script>
+```
+
+## 📚 Additional Docs
+
+- [MkDocs Setup & Plugin Overview](docs/mkdocs/mkdocs-overview.md)
+- [Variable Usage in mkdocs.yml](docs/mkdocs/mkdocs-variables.md)
+- [Hydration & Cleanup Workflows](docs/mkdocs/mkdocs-workflows.md)
+
+---
