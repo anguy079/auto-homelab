@@ -1,17 +1,36 @@
 from pathlib import Path
+import yaml
 
-nav_entries = []
+mkdocs_path = Path("mkdocs.yml")
 
-# Scan all .md files in docs/tmp (excluding index.md)
+# Group hydrated files by subfolder
+grouped = {}
 for path in sorted(Path("docs/tmp").rglob("*.md")):
     if path.name == "index.md":
         continue
+    rel = path.relative_to("docs/tmp")
+    parts = rel.parts
     title = path.stem.replace("-", " ").title()
-    relative_path = str(path.relative_to("docs/tmp"))
-    nav_entries.append(f"  - {title}: {relative_path}")
+    entry = {title: str(rel)}
 
-# Always include index.md at the top
-nav_block = ["nav:", "  - Hydration Preview: index.md"] + nav_entries
+    if len(parts) == 1:
+        grouped.setdefault("_root", []).append(entry)
+    else:
+        grouped.setdefault(parts[0], []).append(entry)
 
-# Write to a file for manual copy-paste into mkdocs.yml
-Path("scripts/nav_output.yml").write_text("\n".join(nav_block))
+# Build nav block
+nav = [{"Hydration Preview": "index.md"}]
+for folder, entries in grouped.items():
+    if folder == "_root":
+        nav.extend(entries)
+    else:
+        nav.append({folder.title(): entries})
+
+# Load existing mkdocs.yml
+config = yaml.safe_load(mkdocs_path.read_text())
+
+# Replace or insert nav block
+config["nav"] = nav
+
+# Write updated mkdocs.yml
+mkdocs_path.write_text(yaml.dump(config, sort_keys=False))
