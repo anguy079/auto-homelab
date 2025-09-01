@@ -2,8 +2,8 @@
 
 Below are the currently hydrated templates:
 
-{% for file in files %}
-- [{{ file.name }}]({{ file.url }})
+{% for file in files if file.is_page and not file.is_index %}
+- [{{ file.title }}]({{ file.url }})
 {% endfor %}
 
 ---
