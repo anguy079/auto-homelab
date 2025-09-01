@@ -1,10 +1,5 @@
-import mkdocs_gen_files
-from pathlib import Path
+from scripts import write_if_missing
 
-index_path = Path("docs/tmp/index.md")
-if not index_path.exists():
-    with mkdocs_gen_files.open(index_path, "w") as f:
-        f.write("# 🧬 Hydrated Templates\n\n")
-        f.write("This page was auto-generated during build.\n\n")
-        f.write("Use the hydration workflow to populate this folder.\n")
-    mkdocs_gen_files.set_edit_path(index_path, "docs/tmp/index.md")
+write_if_missing("docs/tmp/index.md", "# 🧬 Hydrated Templates\n\nThis page was auto-generated.\n")
+write_if_missing("docs/mkdocs/README.md", "# 🧪 Getting Started\n\nThis guide explains hydration workflows.\n")
+write_if_missing("docs/mkdocs/mkdocs-overview.md", "# 📦 MkDocs Overview\n\nFeatures, plugins, and setup.\n")
