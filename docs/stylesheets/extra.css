@@ -1,12 +1,29 @@
-/* Custom icon colors for sidebar entries */
+/* Sidebar icon colors */
 .md-nav__link .radarr-icon {
   color: #f39c12;
 }
-
 .md-nav__link .sonarr-icon {
   color: #3498db;
 }
-
 .md-nav__link .plex-icon {
   color: #e5a00d;
+}
+
+/* Hover effects */
+.md-nav__link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+/* Countdown styling */
+#countdown {
+  font-weight: bold;
+  color: #e53935;
+  padding: 0.5em 0;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.6; }
 }
