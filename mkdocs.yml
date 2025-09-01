@@ -1,7 +1,7 @@
 site_name: Auto Homelab Docs
 
 # Folder to hydrate from (relative to repo root)
-docs_dir: tmp
+docs_dir: docs/tmp
 
 # Optional: where to output the built site
 # site_dir: site  # default is 'site'
@@ -32,10 +32,10 @@ extra:
 
 # Optional: navigation structure
 nav:
-  - Home: index.md
-  - MkDocs:
-      - Overview: docs/mkdocs/mkdocs-overview.md
-      - Getting Started: docs/mkdocs/README.md
-  - Templates:
-      - Forking Guide: docs/github/template-forking.md
-      - Radarr Sync: docs/services/radarr/sync-guide.md
+  - Hydration Preview: index.md
+#  - MkDocs:
+#      - Overview: docs/mkdocs/mkdocs-overview.md
+#      - Getting Started: docs/mkdocs/README.md
+#  - Templates:
+#      - Forking Guide: docs/github/template-forking.md
+#      - Radarr Sync: docs/services/radarr/sync-guide.md
