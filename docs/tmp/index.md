@@ -3,7 +3,7 @@
 Below are the currently hydrated templates:
 
 {% for file in files %}
-- [{{ file.name }}]({{ file.url }}) — ⏳ Time remaining: {{ file.countdown }}
+- [{{ file.name }}]({{ file.url }})
 {% endfor %}
 
 ---
