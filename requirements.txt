@@ -1,8 +1,9 @@
-mkdocs-material[recommended,imaging]
-mkdocs-macros-plugin
-mkdocs-gen-files
-mkdocs-copy
-mkdocs
+mkdocs>=1.6.0
+mkdocs-material[recommended,imaging]>=9.5.0
+mkdocs-macros-plugin>=1.0.5
+mkdocs-gen-files>=0.5.0
+git+https://github.com/chikamichi/mkdocs-copy.git
+
 
 # Core MkDocs packages
 #mkdocs
