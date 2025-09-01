@@ -3,7 +3,6 @@ from pathlib import Path
 
 mkdocs_path = Path("mkdocs.yml")
 
-# Load data from the central YAML file
 try:
     with open("data/services.yml", "r") as f:
         data = yaml.safe_load(f)
@@ -20,8 +19,10 @@ for path in sorted(Path("docs/tmp").rglob("*.md")):
     rel = path.relative_to("docs/tmp")
     parts = rel.parts
     stem = path.stem.replace("-", " ").title()
-    file_icon = next((icon for key, icon in file_icons.items() if key in path.stem.lower()), ":file:")
-    title = f"{file_icon} {stem}"
+    
+    # This line has been simplified to remove the icon
+    title = stem 
+    
     entry = {title: str(rel)}
 
     if len(parts) == 1:
