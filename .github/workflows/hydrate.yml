@@ -7,28 +7,28 @@ on:
         description: 'Hours until cleanup'
         required: false
         default: '24'
+  
+  # Also run on pushes to main if you want to auto-deploy
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
-  hydrate-deploy:
-    permissions:
-      contents: write
+  # This job builds the site and updates the README
+  build:
+    name: Build and Update README
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to push README changes
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install MkDocs & Plugins
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
 
       - name: Update README Countdown
         run: |
@@ -43,5 +43,26 @@ jobs:
           sed -i "s|⏳ Expires in: .*|⏳ Expires in: **${H}h ${M}m** (auto-cleanup scheduled)|" README.md
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git commit -am "Update hydration timestamp and countdown"
+          git commit -am "Docs: Update hydration timestamp"
           git push
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+  # This job deploys the artifact to GitHub Pages
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an auth'd source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
