@@ -37,6 +37,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Set dynamic countdown end time
+        run: |
+          HOURS=${{ github.event.inputs.delete_after_hours }}
+          # Calculate the future time in ISO 8601 format (e.g., 2025-09-02T03:00:00Z)
+          END_TIME=$(date -u -d "+$HOURS hours" -I'seconds')
+          # Use sed to replace the placeholder in mkdocs.yml
+          # The | separator is used to avoid issues with slashes in the replacement string
+          sed -i "s|COUNTDOWN_END:.*|COUNTDOWN_END: '${END_TIME}'|" mkdocs.yml
+          echo "Set COUNTDOWN_END to ${END_TIME}"
+
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
 
@@ -52,10 +62,8 @@ jobs:
           M=$(((REMAIN % 3600) / 60))
           sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$START**|" README.md
           sed -i "s|⏳ Expires in: .*|⏳ Expires in: **${H}h ${M}m** (auto-cleanup scheduled)|" README.md
-          
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-
           if git diff --quiet; then
             echo "No changes to the README, skipping commit."
           else
@@ -70,6 +78,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
+    # ... (rest of deploy job is unchanged)
     needs: build
     runs-on: ubuntu-latest
     permissions:
