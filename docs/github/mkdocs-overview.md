@@ -191,6 +191,20 @@ You can add buttons to your root `README.md` like:
 [![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
 
 [![View Temporary Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
+
+[![Hydrate](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
+[![View Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://<GH_USERNAME>.github.io/<REPO>/tmp/template-forking/)
+[![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
+```
+
+```markdown
+### 🚀 Hydration Controls
+
+[![Hydrate 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+[![View Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
+[![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+
+![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
 ```
 
 > You can also use GitHub’s [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch) to trigger hydration manually.
