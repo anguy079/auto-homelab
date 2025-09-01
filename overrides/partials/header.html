@@ -1,8 +1,21 @@
-{% extends "partials/header.html" %}
-
-{% block site_name %}
-  <span class="md-header-nav__topic" id="countdown-timer" style="margin-right: 0.5rem;">
-    --:--
-  </span>
-  {{ super() }}
-{% endblock %}
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="{{ config.site_url | url }}" title="{{ config.site_name }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
+      {{ config.theme.logo }}
+    </a>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span id="countdown-timer" style="margin-right: 0.5rem;">--:--</span>
+          <span class="md-ellipsis">{{ config.site_name }}</span>
+        </div>
+      </div>
+    </div>
+    {% if config.theme.features and "search" in config.theme.features %}
+      <label class="md-header__button md-icon" for="__search">
+        {% include ".icons/material/magnify.svg" %}
+      </label>
+      {% include "partials/search.html" %}
+    {% endif %}
+  </nav>
+</header>
