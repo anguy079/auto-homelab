@@ -1,6 +1,5 @@
 # Core MkDocs packages
 mkdocs
-mkdocs-material
 
 # Plugin: Variable substitution
 mkdocs-macros-plugin
@@ -12,7 +11,7 @@ mkdocs-copy
 mkdocs-gen-files
 
 # Optional: Theme extensions (icons, image handling)
-# mkdocs-material[recommended,imaging]
+mkdocs-material[recommended,imaging]
 
 # Optional: Markdown extensions (tables, footnotes, etc.)
 # pymdown-extensions
