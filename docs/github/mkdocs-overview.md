@@ -169,3 +169,65 @@ rm docs/tmp/template-forking.md
 ---
 
 Let me know if you’d like this scaffolded into a reusable onboarding block or synced with your `template-forking.md`. I can also modularize the GitHub Actions workflow with service-specific hydration triggers.
+
+
+Great questions, Alexander — let’s break each one down precisely so you can architect your homelab workflows with confidence:
+
+---
+
+### 📍 1. Does `mkdocs.yml` Need to Be at Repo Root for GitHub Pages?
+
+**Yes — for GitHub Pages to work with MkDocs**, `mkdocs.yml` must be located at the **root of the repo** and named exactly `mkdocs.yml`.
+
+Even if you run `mkdocs build -f path/to/mkdocs.yml` locally or in CI, GitHub Pages itself doesn’t parse that config — it simply serves the output from the `gh-pages` branch. So the hydration and build process must be done before deployment, and that process expects `mkdocs.yml` at the root unless overridden manually during build.
+
+> ✅ You can override the config path during build (`mkdocs build -f tmp/mkdocs.yml`), but **GitHub Pages won’t respect that unless the build step happens before deploy**.
+
+---
+
+### 💧 2. Can You Hydrate Files Using GitHub Pages or Cloudflare Without Local Install?
+
+**Yes — but only through CI/CD**, not directly via GitHub Pages or Cloudflare.
+
+- **GitHub Pages**: Only serves static files from the `gh-pages` branch. It does **not** run MkDocs or hydrate templates itself.
+- **Cloudflare Pages**: Can run MkDocs during build if you configure a Python environment and install dependencies via `requirements.txt`.
+
+So to hydrate `.md` files with variables:
+
+- ✅ Use **GitHub Actions** or **Cloudflare build scripts** to run `mkdocs build`
+- ✅ Include `mkdocs.yml`, your plugins, and template `.md` files
+- ✅ Output hydrated HTML to `site/` → deploy that folder
+
+> You don’t need to install MkDocs locally if you use CI — but hydration must happen during the build step.
+
+---
+
+### ⚙️ 3. Can You Set GitHub Defaults Like Indentation or Soft Wrap?
+
+**Not natively in GitHub’s web interface**, but you have a few options:
+
+#### ✅ EditorConfig
+
+You can add a `.editorconfig` file to your repo to enforce formatting rules across supported editors:
+
+```ini
+# .editorconfig
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+```
+
+This works with VS Code, JetBrains IDEs, and others — but **not GitHub’s web editor**.
+
+#### ✅ GitHub Web Editor Limitations
+
+- No way to enforce soft wrap or indentation defaults for new files
+- Contributors must configure their local editor or use `.editorconfig`
+
+---
+
+Would you like me to scaffold a `requirements.txt`, `.editorconfig`, and GitHub Actions workflow that hydrates your templates and deploys to GitHub Pages or Cloudflare? I can modularize it with service-specific triggers and cleanup logic.
