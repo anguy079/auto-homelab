@@ -1,5 +1,5 @@
 site_name: Auto Homelab Docs
-site_url: https://placeholder.com
+site_url: https://anguy079.github.io/auto-homelab
 docs_dir: docs/tmp
 plugins:
 - search
@@ -13,14 +13,14 @@ plugins:
     - scripts/gen_hydrated_docs.py
     - scripts/gen_nav.py
 extra:
-  REPO_FULL_NAME: "{{ env.REPO_FULL_NAME }}"
-  REPO_OWNER: "{{ env.REPO_OWNER }}"
-  REPO_NAME: "{{ env.REPO_NAME }}"
-  REPO_URL: "{{ env.REPO_URL }}"
-  REF_NAME: "{{ env.REF_NAME }}"
-  LAST_UPDATED_BY: "{{ env.LAST_UPDATED_BY }}"
-  COMMIT_SHA: "{{ env.COMMIT_SHA }}"
-  WORKFLOW_RUN: "{{ env.WORKFLOW_RUN }}"
+  REPO_FULL_NAME: '{{ env.REPO_FULL_NAME }}'
+  REPO_OWNER: '{{ env.REPO_OWNER }}'
+  REPO_NAME: '{{ env.REPO_NAME }}'
+  REPO_URL: '{{ env.REPO_URL }}'
+  REF_NAME: '{{ env.REF_NAME }}'
+  LAST_UPDATED_BY: '{{ env.LAST_UPDATED_BY }}'
+  COMMIT_SHA: '{{ env.COMMIT_SHA }}'
+  WORKFLOW_RUN: '{{ env.WORKFLOW_RUN }}'
   FORK_NAME: lsio-docker-radarr
   DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
@@ -36,7 +36,7 @@ extra:
     );\n    } else if (diff > 3 * 3600000) {\n      countdown.classList.add(\"badge-yellow\"\
     );\n    } else {\n      countdown.classList.add(\"badge-red\");\n    }\n  }, 60000);\n\
     </script>\n"
-  COUNTDOWN_END: '2025-09-02T19:52:34+00:00'
+  COUNTDOWN_END: '2025-09-02T21:48:59+00:00'
 theme:
   name: material
   custom_dir: overrides
@@ -49,3 +49,4 @@ markdown_extensions:
     emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
 nav:
 - ':droplet: Hydration Preview': index.md
+- ':file: Variable Test': variable-test.md
