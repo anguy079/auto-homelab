@@ -1,0 +1,31 @@
+name: Hydrate & Deploy Temporary Docs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  hydrate-deploy-cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install MkDocs & Plugins
+        run: pip install -r requirements.txt
+
+      - name: Build Hydrated Docs
+        run: mkdocs build -f mkdocs.yml
+
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force -f mkdocs.yml
+
+      - name: Schedule Cleanup
+        run: |
+          echo "#!/bin/bash
+          sleep $((24 * 3600))
+          git rm -rf docs/tmp/*
+          git commit -m 'Cleanup hydrated files after 24h'
+          git push" > cleanup.sh
+          chmod +x cleanup.sh
+          nohup ./cleanup.sh &
