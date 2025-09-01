@@ -50,6 +50,8 @@ jobs:
           # Calculate the future time in ISO 8601 format (e.g., 2025-09-02T03:00:00Z)
           END_TIME=$(date -u -d "+$HOURS hours" -I'seconds')
           # Use sed to replace the placeholder in mkdocs.yml
+          # Add this line to update the site_url
+          sed -i "s|site_url:.*|site_url: ${{ env.SITE_URL }}|" mkdocs.yml
           # The | separator is used to avoid issues with slashes in the replacement string
           sed -i "s|COUNTDOWN_END:.*|COUNTDOWN_END: '${END_TIME}'|" mkdocs.yml
           echo "Set COUNTDOWN_END to ${END_TIME}"
