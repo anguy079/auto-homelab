@@ -253,9 +253,9 @@ To hydrate and deploy your docs:
 - [Set GitHub Pages source to GitHub Actions](https://github.com/anguy079/auto-homelab/settings/pages)
 - Ensure repo is [public for free hosting](https://github.com/anguy079/auto-homelab)
 - Include:
-  - [`mkdocs.yml`](https://github.com/anguy079/auto-homelab/blob/main/mkdocs.yml)
-  - [`requirements.txt`](https://github.com/anguy079/auto-homelab/blob/main/requirements.txt)
-  - [`hydrate.yml`](https://github.com/anguy079/auto-homelab/blob/main/.github/workflows/hydrate.yml)
+  - [`mkdocs.yml`](/mkdocs.yml)
+  - [`requirements.txt`](/requirements.txt)
+  - [`hydrate.yml`](/.github/workflows/hydrate.yml)
 
 ### 🚀 Trigger Hydration
 
@@ -269,6 +269,3 @@ Click the button below to hydrate and deploy for 24h:
 > 🔧 GitHub doesn’t support one-click toggling of Pages source — it must be set manually in [Settings → Pages](https://github.com/anguy079/auto-homelab/settings/pages).
 
 ---
-
-Let me know if you’d like help injecting the countdown timer into your hydrated page or modularizing this setup for multiple services like `radarr`, `sonarr`, etc.
-
