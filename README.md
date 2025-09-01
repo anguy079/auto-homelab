@@ -1,4 +1,6 @@
 ### 🚀 Hydration Actions
+🕒 Hydrated on: **Sept 1, 2025 @ 04:28 PDT**  
+⏳ Expires in: **23h 32m** (auto-cleanup scheduled)
 
 [![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
 
