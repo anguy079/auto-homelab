@@ -10,7 +10,7 @@ docs_dir: docs/tmp
 plugins:
   - search
   - macros
-  - copy  # mkdocs-copy plugin optional: for relocating hydrated files
+  - mkdocs-copy  # mkdocs-copy plugin optional: for relocating hydrated files
   - gen-files:
       scripts:
         - scripts/gen_docs.py              # scaffolds base Markdown templates
