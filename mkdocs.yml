@@ -1,5 +1,5 @@
 site_name: Auto Homelab Docs
-site_url: "{{ env.SITE_URL }}"
+site_url: https://placeholder.com
 docs_dir: docs/tmp
 plugins:
 - search
