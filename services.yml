@@ -1,0 +1,17 @@
+services:
+  radarr:
+    title: "Radarr Forking Guide"
+  sonarr:
+    title: "Sonarr Forking Guide"
+
+folder_icons:
+  radarr: ":radarr:{ .radarr-icon }"
+  sonarr: ":sonarr:{ .sonarr-icon }"
+  plex: ":plex:{ .plex-icon }"
+  _root: ":file:"
+
+file_icons:
+  sync: ":link:"
+  fork: ":fork:"
+  onboard: ":rocket:"
+  guide: ":book:"
