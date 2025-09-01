@@ -1,7 +1,5 @@
 ## 🧪 Getting Started
 
-To hydrate and deploy your docs:
-
 ### ✅ Requirements
 
 - [Set GitHub Pages source to GitHub Actions](https://github.com/anguy079/auto-homelab/settings/pages)
@@ -11,9 +9,11 @@ To hydrate and deploy your docs:
   - [`requirements.txt`](/requirements.txt)
   - [`hydrate.yml`](/.github/workflows/hydrate.yml)
 
+---
+
 ### 🚀 Trigger Hydration
 
-Click the button below to hydrate and deploy for 24h:
+Click `Hydrate` to deploy for 24h:
 
 [![Hydrate](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
 
@@ -21,59 +21,33 @@ Click the button below to hydrate and deploy for 24h:
 
 ---
 
-## ⏱️ Live Countdown Recommendation
-
-For a **live countdown that refreshes on page reload**, your best option is:
-
-### ✅ GitHub Pages + JavaScript Timer
-
-- Add a small HTML/JS snippet to your hydrated page:
-  ```html
-  <div id="countdown"></div>
-  <script>
-    const endTime = new Date("2025-09-02T03:00:00Z"); // set dynamically
-    const countdown = document.getElementById("countdown");
-    setInterval(() => {
-      const now = new Date();
-      const diff = endTime - now;
-      const hours = Math.floor(diff / 3600000);
-      const minutes = Math.floor((diff % 3600000) / 60000);
-      countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
-    }, 60000);
-  </script>
-  ```
-
-- You can inject this via MkDocs macros or include it in a custom HTML block.
-
----
-
-## ⏱️ Displaying Timer in Both Hydrated Page & README
+## ⏱️ Displaying Live Cleanup Countdown Timer
 
 ### ✅ In Hydrated Page (via MkDocs Macros)
 
-1. Add this to `mkdocs.yml`:
-   ```yaml
-   extra:
-     COUNTDOWN_END: "2025-09-02T03:00:00Z"
-   ```
+Add this to `mkdocs.yml`:
 
-2. In your Markdown file (e.g. `tmp/template-forking.md`):
-   ```html
-   <div id="countdown"></div>
-   <script>
-     const endTime = new Date("{{ COUNTDOWN_END }}");
-     const countdown = document.getElementById("countdown");
-     setInterval(() => {
-       const now = new Date();
-       const diff = endTime - now;
-       const hours = Math.floor(diff / 3600000);
-       const minutes = Math.floor((diff % 3600000) / 60000);
-       countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
-     }, 60000);
-   </script>
-   ```
+```yaml
+extra:
+  COUNTDOWN_END: "2025-09-02T03:00:00Z"
+```
 
-This will render a live countdown on the hydrated page.
+Then in any `.md` file add:
+
+```html
+<div id="countdown"></div>
+<script>
+  const endTime = new Date("{{ COUNTDOWN_END }}");
+  const countdown = document.getElementById("countdown");
+  setInterval(() => {
+    const now = new Date();
+    const diff = endTime - now;
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+  }, 60000);
+</script>
+```
 
 ---
 
@@ -87,37 +61,7 @@ This will render a live countdown on the hydrated page.
 ⏳ Expires in: **24h** (auto-cleanup scheduled)
 ```
 
-> You can automate the timestamp update using a GitHub Action that commits the updated `README.md` when hydration is triggered.
-
----
-
-## 🖱️ README.md Button Integration
-
-You can add buttons to your root `README.md` like:
-
-```markdown
-### 🚀 Hydration Actions
-
-[![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
-
-[![View Temporary Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
-
-[![Hydrate](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
-[![View Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://<GH_USERNAME>.github.io/<REPO>/tmp/template-forking/)
-[![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
-```
-
-```markdown
-### 🚀 Hydration Controls
-
-[![Hydrate 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
-[![View Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
-[![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
-
-![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
-```
-
-> You can also use GitHub’s [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch) to trigger hydration manually.
+> This block is auto-updated by your hydration workflow.
 
 ---
 
@@ -209,70 +153,32 @@ mkdocs-copy
 
 ---
 
-## 🧩 Reusable Countdown Macro Block for Hydrated Pages
-
-Add this snippet to any `.md` file inside your hydrated folder (e.g. `tmp/template-forking.md`):
-
-```html
-<div id="countdown"></div>
-<script>
-  const endTime = new Date("{{ COUNTDOWN_END }}");
-  const countdown = document.getElementById("countdown");
-  setInterval(() => {
-    const now = new Date();
-    const diff = endTime - now;
-    const hours = Math.floor(diff / 3600000);
-    const minutes = Math.floor((diff % 3600000) / 60000);
-    countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
-  }, 60000);
-</script>
-```
-
-✅ This will render a live countdown that updates every minute.
-
 ---
 
-## 🕒 Auto-Timestamp Update Workflow (`update-readme.yml`)
+## 🖱️ README.md Button Integration
 
-Create `.github/workflows/update-readme.yml`:
-
-```yaml
-name: Update README Timestamp
-
-on:
-  workflow_dispatch:
-
-jobs:
-  update-readme:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: Update Timestamp in README
-        run: |
-          TIMESTAMP=$(date -u +"%b %d, %Y @ %H:%M UTC")
-          sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$TIMESTAMP**|" README.md
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git commit -am "Update hydration timestamp"
-          git push
-```
-
-✅ This replaces the hydration timestamp line in `README.md` with the current UTC time.
-
----
-
-## 📦 README.md Countdown + Status Block
+You can add buttons to your root `README.md` like:
 
 ```markdown
-### 🚀 Hydration Status
+### 🚀 Hydration Actions
 
-![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)  
-🕒 Hydrated on: **Sept 1, 2025 @ 04:07 PDT**  
-⏳ Expires in: **24h** (auto-cleanup scheduled)
+[![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+
+[![View Temporary Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
+
+[![Hydrate](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
+[![View Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://<GH_USERNAME>.github.io/<REPO>/tmp/template-forking/)
+[![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](https://github.com/<GH_USERNAME>/<REPO>/actions/workflows/hydrate.yml)
 ```
 
-> This block will be updated automatically by the `update-readme.yml` workflow.
+```markdown
+### 🚀 Hydration Controls
 
----
+[![Hydrate 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+[![View Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
+[![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+
+![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
+```
+
+> You can also use GitHub’s [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch) to trigger hydration manually.
