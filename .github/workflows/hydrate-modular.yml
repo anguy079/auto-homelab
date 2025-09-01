@@ -1,0 +1,35 @@
+name: Hydrate & Deploy Docs
+
+on:
+  workflow_dispatch:
+    inputs:
+      delete_after_hours:
+        description: 'Hours until cleanup'
+        required: false
+        default: '24'
+
+jobs:
+  hydrate-deploy-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install MkDocs & Plugins
+        run: pip install -r requirements.txt
+
+      - name: Build Hydrated Docs
+        run: mkdocs build -f mkdocs.yml
+
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force -f mkdocs.yml
+
+      - name: Schedule Cleanup
+        run: |
+          echo "#!/bin/bash
+          sleep $(( ${{ github.event.inputs.delete_after_hours }} * 3600 ))
+          git rm -rf tmp/*
+          git commit -m 'Cleanup hydrated files'
+          git push" > cleanup.sh
+          chmod +x cleanup.sh
+          nohup ./cleanup.sh &
