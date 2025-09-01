@@ -47,6 +47,8 @@ extra:
 theme:
   name: material
   custom_dir: overrides
+  extra_css:
+    - stylesheets/extra.css
 #   palette:
 #     primary: blue
 #     accent: pink
