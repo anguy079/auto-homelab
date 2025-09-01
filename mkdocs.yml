@@ -13,9 +13,9 @@ plugins:
   - mkdocs-copy  # optional: for relocating hydrated files
   - gen-files:
       scripts:
-        - scripts/gen_index.py
-        - scripts/gen_hydrated_docs.py
-        - scripts/gen_docs.py
+        - scripts/gen_docs.py              # scaffolds base Markdown templates
+        - scripts/gen_index.py             # creates hydration index if missing
+        - scripts/gen_hydrated_docs.py     # injects countdown into hydrated .md files
 
 # Variables for substitution
 extra:
