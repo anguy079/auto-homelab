@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build Hydrated Docs
-        run: mkdocs -m mkdocs build -f mkdocs.yml
+        run: python -m mkdocs build -f mkdocs.yml
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
