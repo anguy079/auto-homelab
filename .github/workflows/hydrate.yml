@@ -1,12 +1,16 @@
-name: Hydrate & Deploy Temporary Docs
+name: Hydrate & Deploy Docs
 
 on:
   workflow_dispatch:
+    inputs:
+      delete_after_hours:
+        description: 'Hours until cleanup'
+        required: false
+        default: '24'
 
 jobs:
   hydrate-deploy-cleanup:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -23,9 +27,9 @@ jobs:
       - name: Schedule Cleanup
         run: |
           echo "#!/bin/bash
-          sleep $((24 * 3600))
-          git rm -rf docs/tmp/*
-          git commit -m 'Cleanup hydrated files after 24h'
+          sleep $(( ${{ github.event.inputs.delete_after_hours }} * 3600 ))
+          git rm -rf tmp/*
+          git commit -m 'Cleanup hydrated files'
           git push" > cleanup.sh
           chmod +x cleanup.sh
           nohup ./cleanup.sh &
