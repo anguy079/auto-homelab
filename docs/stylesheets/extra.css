@@ -1,0 +1,12 @@
+/* Custom icon colors for sidebar entries */
+.md-nav__link .radarr-icon {
+  color: #f39c12;
+}
+
+.md-nav__link .sonarr-icon {
+  color: #3498db;
+}
+
+.md-nav__link .plex-icon {
+  color: #e5a00d;
+}
