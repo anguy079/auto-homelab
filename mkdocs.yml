@@ -17,6 +17,7 @@ plugins:
         - scripts/gen_service_docs.py
         - scripts/gen_index.py             # creates hydration index if missing
         - scripts/gen_hydrated_docs.py     # injects countdown into hydrated .md files
+        - scripts/gen_nav.py
 
 # Variables for substitution
 extra:
