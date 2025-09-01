@@ -1,4 +1,5 @@
 site_name: Auto Homelab Docs
+site_url: "{{ env.SITE_URL }}"
 docs_dir: docs/tmp
 plugins:
 - search
