@@ -15,6 +15,7 @@ plugins:
       scripts:
         - scripts/gen_docs.py              # scaffolds base Markdown templates
         - scripts/gen_index.py             # creates hydration index if missing
+        - scripts/gen_service_docs.py
         - scripts/gen_hydrated_docs.py     # injects countdown into hydrated .md files
 
 # Variables for substitution
