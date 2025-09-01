@@ -14,6 +14,8 @@ plugins:
   - gen-files:
       scripts:
         - scripts/gen_index.py
+        - scripts/gen_hydrated_docs.py
+        - scripts/gen_docs.py
 
 # Variables for substitution
 extra:
@@ -24,6 +26,19 @@ extra:
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
   # WORKFLOW_FILE: sync-lsio-docker-radarr.yml  # not in template file
+  COUNTDOWN_SNIPPET: |
+    <div id="countdown"></div>
+    <script>
+      const endTime = new Date("{{ COUNTDOWN_END }}");
+      const countdown = document.getElementById("countdown");
+      setInterval(() => {
+        const now = new Date();
+        const diff = endTime - now;
+        const hours = Math.floor(diff / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+      }, 60000);
+    </script>
   COUNTDOWN_END: "2025-09-02T03:00:00Z"  # used in countdown timer
 
 # Optional: theme settings
