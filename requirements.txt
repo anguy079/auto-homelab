@@ -1,17 +1,23 @@
-# Core MkDocs packages
+mkdocs-material[recommended,imaging]
+mkdocs-macros-plugin
+mkdocs-gen-files
+mkdocs-copy
 mkdocs
 
+# Core MkDocs packages
+#mkdocs
+
 # Plugin: Variable substitution
-mkdocs-macros-plugin
+#mkdocs-macros-plugin
 
 # Plugin: Copy and relocate hydrated files
-mkdocs-copy
+#mkdocs-copy
 
 # Optional: Generate files dynamically during build
-mkdocs-gen-files
+#mkdocs-gen-files
 
 # Optional: Theme extensions (icons, image handling)
-mkdocs-material[recommended,imaging]
+#mkdocs-material[recommended,imaging]
 
 # Optional: Markdown extensions (tables, footnotes, etc.)
 # pymdown-extensions
