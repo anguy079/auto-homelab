@@ -29,7 +29,7 @@ extra:
   WORKFLOW_FILE: hydrate.yml
   # WORKFLOW_FILE: sync-lsio-docker-radarr.yml  # not in template file
   COUNTDOWN_SNIPPET: |
-    <div id="countdown"></div>
+    <div id="countdown" class="countdown-badge">⏳ Calculating...</div>
     <script>
       const endTime = new Date("{{ COUNTDOWN_END }}");
       const countdown = document.getElementById("countdown");
@@ -38,9 +38,20 @@ extra:
         const diff = endTime - now;
         const hours = Math.floor(diff / 3600000);
         const minutes = Math.floor((diff % 3600000) / 60000);
-        countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+  
+        countdown.textContent = `⏳ Expires in: ${hours}h ${minutes}m`;
+  
+        countdown.classList.remove("badge-green", "badge-yellow", "badge-red");
+        if (diff > 12 * 3600000) {
+          countdown.classList.add("badge-green");
+        } else if (diff > 3 * 3600000) {
+          countdown.classList.add("badge-yellow");
+        } else {
+          countdown.classList.add("badge-red");
+        }
       }, 60000);
     </script>
+
   COUNTDOWN_END: "2025-09-02T03:00:00Z"  # used in countdown timer
 
 # Optional: theme settings
