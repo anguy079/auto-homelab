@@ -20,6 +20,8 @@ Forked from `{{ REPO_ORIGIN }}`
 Maintained by `{{ GH_USERNAME }}`
 ```
 
+---
+
 ## 🧼 Privacy Hygiene
 
 Avoid hardcoding usernames or repo names. Use variables to keep forks clean and audit-friendly.
