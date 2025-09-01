@@ -1,1 +1,12 @@
 
+site_name: Auto Homelab Docs
+plugins:
+  - search
+  - macros
+
+extra:
+  GH_USERNAME: anguy079
+  FORK_NAME: lsio-docker-radarr
+  REPO_ORIGIN: linuxserver/docker-radarr
+  TARGET_FOLDER: services/radarr
+  WORKFLOW_FILE: sync-lsio-docker-radarr.yml
