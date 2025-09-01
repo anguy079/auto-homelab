@@ -4,7 +4,7 @@
 
 MkDocs is a static site generator built for documentation. It can:
 
-- 💧 Hydrate Markdown files using variables
+- 💧 Hydrate Markdown files using variables via the `macros` plugin
 - 📁 Convert `.md` files into clean HTML pages
 - 🚀 Serve docs locally or deploy to GitHub Pages / Cloudflare Pages
 - 🔄 Automate file generation, renaming, and relocation via plugins
@@ -31,11 +31,12 @@ docs_dir: docs/tmp
 plugins:
   - search
   - macros
+  - mkdocs-copy
 extra:
   GH_USERNAME: anguy079
   FORK_NAME: lsio-docker-radarr
   REPO_ORIGIN: linuxserver/docker-radarr
-  DELETE_AFTER_DAYS: 7
+  DELETE_AFTER_DAYS: 1
 ```
 
 ---
@@ -52,6 +53,28 @@ extra:
 
 ```bash
 mkdocs serve -f tmp/mkdocs.yml
+```
+
+---
+
+## 📦 What Is `requirements.txt`?
+
+A `requirements.txt` file lists all Python packages needed to build your MkDocs site. It’s used in CI/CD pipelines (GitHub Actions, Cloudflare Pages) to install dependencies.
+
+### ✅ Example
+
+```txt
+mkdocs
+mkdocs-material
+mkdocs-macros-plugin
+mkdocs-copy
+```
+
+### 🔧 Usage in GitHub Actions
+
+```yaml
+- name: Install dependencies
+  run: pip install -r requirements.txt
 ```
 
 ---
@@ -99,14 +122,7 @@ mkdocs gh-deploy --force
 
 - Copies hydrated `.md` files to custom paths
 - Supports renaming and relocation across repos
-
-```yaml
-plugins:
-  - macros
-  - mkdocs-copy:
-      add_per_path:
-        - docs/tmp/template-forking.md: ../homelab/docs/services/radarr/radarr-forking.md
-```
+- **Does not auto-delete copied files** — cleanup logic must target original hydration paths
 
 ### 🔧 `mkdocs-gen-files`
 
@@ -121,8 +137,7 @@ plugins:
 name: Hydrate & Deploy Docs
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   build-docs:
@@ -131,103 +146,53 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Install MkDocs & Plugins
-        run: |
-          pip install mkdocs mkdocs-macros-plugin mkdocs-copy
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
 
       - name: Build Hydrated Docs
-        run: |
-          mkdocs build -f tmp/mkdocs.yml
+        run: mkdocs build -f tmp/mkdocs.yml
 
       - name: Deploy to GitHub Pages
-        run: |
-          mkdocs gh-deploy --force -f tmp/mkdocs.yml
+        run: mkdocs gh-deploy --force -f tmp/mkdocs.yml
 
-      - name: Cleanup Hydrated Files (after 7 days)
+      - name: Cleanup Hydrated Files (after 1 day)
         run: |
-          find docs/tmp -type f -name "*.md" -mtime +${{ vars.DELETE_AFTER_DAYS || 7 }} -exec rm {} \;
+          find docs/tmp -type f -name "*.md" -mtime +${{ vars.DELETE_AFTER_DAYS || 1 }} -exec rm {} \;
 ```
 
 > 🔐 GitHub Pages requires the repo to be **public** for free hosting
 
 ---
 
-## 🧼 Optional: Temporary Hydration Workflow
+## 🧼 Temporary Hydration Workflow
 
-If you only need to preview or grab commands:
+### ✅ Preview Locally
 
 ```bash
 mkdocs serve -f tmp/mkdocs.yml
 # Visit http://localhost:8000/tmp/template-forking/
 ```
 
-To delete hydrated files manually:
+### ✅ Manual Cleanup
+
 ```bash
 rm docs/tmp/template-forking.md
 ```
 
 ---
 
-Let me know if you’d like this scaffolded into a reusable onboarding block or synced with your `template-forking.md`. I can also modularize the GitHub Actions workflow with service-specific hydration triggers.
+## 🖱️ README.md Button Integration
 
+You can add buttons to your root `README.md` like:
 
-Great questions, Alexander — let’s break each one down precisely so you can architect your homelab workflows with confidence:
+```markdown
+### 🚀 Hydration Actions
 
----
+[![Hydrate for 24h](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
 
-### 📍 1. Does `mkdocs.yml` Need to Be at Repo Root for GitHub Pages?
-
-**Yes — for GitHub Pages to work with MkDocs**, `mkdocs.yml` must be located at the **root of the repo** and named exactly `mkdocs.yml`.
-
-Even if you run `mkdocs build -f path/to/mkdocs.yml` locally or in CI, GitHub Pages itself doesn’t parse that config — it simply serves the output from the `gh-pages` branch. So the hydration and build process must be done before deployment, and that process expects `mkdocs.yml` at the root unless overridden manually during build.
-
-> ✅ You can override the config path during build (`mkdocs build -f tmp/mkdocs.yml`), but **GitHub Pages won’t respect that unless the build step happens before deploy**.
-
----
-
-### 💧 2. Can You Hydrate Files Using GitHub Pages or Cloudflare Without Local Install?
-
-**Yes — but only through CI/CD**, not directly via GitHub Pages or Cloudflare.
-
-- **GitHub Pages**: Only serves static files from the `gh-pages` branch. It does **not** run MkDocs or hydrate templates itself.
-- **Cloudflare Pages**: Can run MkDocs during build if you configure a Python environment and install dependencies via `requirements.txt`.
-
-So to hydrate `.md` files with variables:
-
-- ✅ Use **GitHub Actions** or **Cloudflare build scripts** to run `mkdocs build`
-- ✅ Include `mkdocs.yml`, your plugins, and template `.md` files
-- ✅ Output hydrated HTML to `site/` → deploy that folder
-
-> You don’t need to install MkDocs locally if you use CI — but hydration must happen during the build step.
-
----
-
-### ⚙️ 3. Can You Set GitHub Defaults Like Indentation or Soft Wrap?
-
-**Not natively in GitHub’s web interface**, but you have a few options:
-
-#### ✅ EditorConfig
-
-You can add a `.editorconfig` file to your repo to enforce formatting rules across supported editors:
-
-```ini
-# .editorconfig
-[*]
-indent_style = space
-indent_size = 2
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
+[![View Temporary Docs](https://img.shields.io/badge/View-Temporary%20Docs-green)](https://anguy079.github.io/auto-homelab/tmp/template-forking/)
 ```
 
-This works with VS Code, JetBrains IDEs, and others — but **not GitHub’s web editor**.
-
-#### ✅ GitHub Web Editor Limitations
-
-- No way to enforce soft wrap or indentation defaults for new files
-- Contributors must configure their local editor or use `.editorconfig`
+> You can also use GitHub’s [workflow_dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch) to trigger hydration manually.
 
 ---
-
-Would you like me to scaffold a `requirements.txt`, `.editorconfig`, and GitHub Actions workflow that hydrates your templates and deploys to GitHub Pages or Cloudflare? I can modularize it with service-specific triggers and cleanup logic.
