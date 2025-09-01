@@ -9,7 +9,7 @@ mkdocs-macros-plugin
 mkdocs-copy
 
 # Optional: Generate files dynamically during build
-# mkdocs-gen-files
+mkdocs-gen-files
 
 # Optional: Theme extensions (icons, image handling)
 # mkdocs-material[recommended,imaging]
