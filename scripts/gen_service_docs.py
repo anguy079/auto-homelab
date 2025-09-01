@@ -1,29 +1,27 @@
-from scripts import write_if_missing
+import yaml
 from pathlib import Path
+from scripts import write_if_missing
 
-services = {
-    "radarr": {
-        "title": "Radarr Forking Guide",
-        "repo": "{{ REPO_ORIGIN }}",
-        "user": "{{ GH_USERNAME }}",
-        "countdown": "{{ COUNTDOWN_SNIPPET }}"
-    },
-    "sonarr": {
-        "title": "Sonarr Forking Guide",
-        "repo": "{{ REPO_ORIGIN }}",
-        "user": "{{ GH_USERNAME }}",
-        "countdown": "{{ COUNTDOWN_SNIPPET }}"
-    }
-}
+# Load data from the central YAML file
+with open("data/services.yml", "r") as f:
+    data = yaml.safe_load(f)
 
-for name, data in services.items():
+services = data.get("services", {})
+repo_origin = "{{ REPO_ORIGIN }}"
+gh_username = "{{ GH_USERNAME }}"
+countdown_snippet = "{{ COUNTDOWN_SNIPPET }}"
+
+for name, service_data in services.items():
     path = f"docs/tmp/{name}.md"
-    content = f"""# 📦 {data['title']}
+    content = f"""# 📦 {service_data['title']}
 
-This guide helps you fork and hydrate `{data['repo']}` using your GitHub account `{data['user']}`.
+This guide helps you fork and hydrate `{repo_origin}` using your GitHub account `{gh_username}`.
 
 ---
 
-{data['countdown']}
+{countdown_snippet}
 """
-    write_if_missing(path, content)
+    try:
+        write_if_missing(path, content)
+    except IOError as e:
+        print(f"Error writing file {path}: {e}")
