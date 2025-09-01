@@ -208,3 +208,71 @@ mkdocs-copy
 </details>
 
 ---
+
+## 🧩 Reusable Countdown Macro Block for Hydrated Pages
+
+Add this snippet to any `.md` file inside your hydrated folder (e.g. `tmp/template-forking.md`):
+
+```html
+<div id="countdown"></div>
+<script>
+  const endTime = new Date("{{ COUNTDOWN_END }}");
+  const countdown = document.getElementById("countdown");
+  setInterval(() => {
+    const now = new Date();
+    const diff = endTime - now;
+    const hours = Math.floor(diff / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
+  }, 60000);
+</script>
+```
+
+✅ This will render a live countdown that updates every minute.
+
+---
+
+## 🕒 Auto-Timestamp Update Workflow (`update-readme.yml`)
+
+Create `.github/workflows/update-readme.yml`:
+
+```yaml
+name: Update README Timestamp
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Update Timestamp in README
+        run: |
+          TIMESTAMP=$(date -u +"%b %d, %Y @ %H:%M UTC")
+          sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$TIMESTAMP**|" README.md
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -am "Update hydration timestamp"
+          git push
+```
+
+✅ This replaces the hydration timestamp line in `README.md` with the current UTC time.
+
+---
+
+## 📦 README.md Countdown + Status Block
+
+```markdown
+### 🚀 Hydration Status
+
+![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)  
+🕒 Hydrated on: **Sept 1, 2025 @ 04:07 PDT**  
+⏳ Expires in: **24h** (auto-cleanup scheduled)
+```
+
+> This block will be updated automatically by the `update-readme.yml` workflow.
+
+---
