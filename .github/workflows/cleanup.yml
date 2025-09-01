@@ -3,12 +3,13 @@ name: Scheduled Cleanup
 on:
   schedule:
     - cron: '0 * * * *'  # every hour
+  workflow_dispatch: {} # Allows manual runs
 
 jobs:
   cleanup-expired-docs:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Required to push changes
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -22,14 +23,19 @@ jobs:
         run: pip install PyYAML
 
       - name: Check Expiry and Cleanup
+        id: check_expiry
         run: |
           python -c "
           import yaml, sys
           from datetime import datetime, timezone
 
-          with open('mkdocs.yml', 'r') as f:
-              config = yaml.safe_load(f)
-              end_time_str = config.get('extra', {}).get('COUNTDOWN_END')
+          try:
+              with open('mkdocs.yml', 'r') as f:
+                  config = yaml.safe_load(f)
+                  end_time_str = config.get('extra', {}).get('COUNTDOWN_END')
+          except FileNotFoundError:
+              print('mkdocs.yml not found. Exiting.')
+              sys.exit(0)
           
           if not end_time_str:
               print('COUNTDOWN_END not found in mkdocs.yml. Exiting.')
@@ -40,21 +46,23 @@ jobs:
 
           if now_time >= end_time:
               print('Hydration has expired. Cleaning up files.')
-              sys.exit(1)
+              sys.exit(1) # Exit with error code to signal cleanup
           else:
               print('Hydration still active. No cleanup needed.')
               sys.exit(0)
-          " || (
-            echo "Proceeding with cleanup..."
-            # Clean the docs/tmp directory and add a .gitkeep file
-            git rm -rf --ignore-unmatch docs/tmp/*
-            mkdir -p docs/tmp/
-            touch docs/tmp/.gitkeep
-            git add docs/tmp/.gitkeep
-            sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **Not active**|" README.md
-            sed -i "s|⏳ Expires in: .*|⏳ Expires in: **Expired**|" README.md
-            git config user.name "GitHub Actions"
-            git config user.email "actions@github.com"
-            git commit -am "Docs: Cleanup expired hydration"
-            git push
-          )
+          " || echo "CLEANUP_NEEDED=true" >> $GITHUB_ENV
+
+      - name: Perform Cleanup
+        if: env.CLEANUP_NEEDED == 'true'
+        run: |
+          echo "Proceeding with cleanup..."
+          git rm -rf --ignore-unmatch docs/tmp/*
+          mkdir -p docs/tmp/
+          touch docs/tmp/.gitkeep
+          git add docs/tmp/.gitkeep
+          sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **Not active**|" README.md
+          sed -i "s|⏳ Expires in: .*|⏳ Expires in: **Expired**|" README.md
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -am "Docs: Cleanup expired hydration"
+          git push
