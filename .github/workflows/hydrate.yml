@@ -43,6 +43,7 @@ jobs:
           sed -i "s|⏳ Expires in: .*|⏳ Expires in: **${H}h ${M}m** (auto-cleanup scheduled)|" README.md
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git add README.md  # Add this line to stage README changes
           git commit -am "Docs: Update hydration timestamp"
           git push
 
