@@ -21,6 +21,7 @@ extra:
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
   # WORKFLOW_FILE: sync-lsio-docker-radarr.yml  # not in template file
+  COUNTDOWN_END: "2025-09-02T03:00:00Z"  # used in countdown timer
 
 # Optional: theme settings
 # theme:
