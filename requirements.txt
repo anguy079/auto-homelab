@@ -1,4 +1,24 @@
+# Core MkDocs packages
 mkdocs
 mkdocs-material
+
+# Plugin: Variable substitution
 mkdocs-macros-plugin
+
+# Plugin: Copy and relocate hydrated files
 mkdocs-copy
+
+# Optional: Generate files dynamically during build
+# mkdocs-gen-files
+
+# Optional: Theme extensions (icons, image handling)
+# mkdocs-material[recommended,imaging]
+
+# Optional: Markdown extensions (tables, footnotes, etc.)
+# pymdown-extensions
+
+# Optional: Syntax highlighting for code blocks
+# pygments
+
+# Optional: Spellcheck or linting tools
+# mkdocs-spellcheck
