@@ -109,16 +109,6 @@ Alternatively, you can run this in a container or VM if you prefer isolating the
 
 ---
 
-
-
-
-
-
-
-You're asking all the right questions, Alexander — and you're clearly thinking in terms of reproducibility, automation, and modularity. Let’s break this down precisely:
-
----
-
 ## 📁 How MkDocs Processes Files
 
 - MkDocs **only processes files inside the `docs/` folder** by default.
@@ -220,10 +210,6 @@ You can even set up a workflow that:
 
 ---
 
-Yes, GitHub Pages is free, powerful, and surprisingly easy to use — but there are a few important limits and requirements to keep in mind, especially for your homelab setup:
-
----
-
 ## ✅ GitHub Pages Requirements
 
 | Requirement                  | Details                                                                 |
@@ -265,4 +251,3 @@ Yes — GitHub Pages **must be built from a repo**, and the site content is serv
 - The hydrated content is served publicly, but your dry templates remain private
 - You can preview locally or automate deployment via GitHub Actions
 
-Would you like me to scaffold a `gh-pages` deployment workflow for `auto-homelab` that builds and publishes your hydrated docs automatically? I can modularize it with service-specific triggers and preview flags.
