@@ -8,6 +8,30 @@
 
 ---
 
+**v2**
+
+<p align="center">
+
+  <a href="/.github/workflows/hydrate.yml" title="Build and publish the documentation site for 24 hours">
+    <img src="https://img.shields.io/badge/Deploy-Docs-blue?style=for-the-badge" alt="Deploy Docs">
+  </a>
+
+  <a href="https://anguy079.github.io/auto-homelab/" title="Open the current live documentation site">
+    <img src="https://img.shields.io/badge/View-Docs-green?style=for-the-badge" alt="View Docs">
+  </a>
+
+  <a href="/.github/workflows/hydrate.yml" title="Rebuild and reset the documentation site timer">
+    <img src="https://img.shields.io/badge/Redeploy-orange?style=for-the-badge" alt="Redeploy">
+  </a>
+
+  <a href="https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml" title="Current deployment status of the documentation site">
+    <img src="https://img.shields.io/github/actions/workflow/status/anguy079/auto-homelab/hydrate.yml?label=Site%20Status&logo=github&style=for-the-badge" alt="Site Status">
+  </a>
+
+</p>
+
+---
+
 # 🧪 Auto Homelab Templates
 
 This repo provides modular, privacy-safe templates for onboarding, hydration, and deployment using MkDocs and GitHub Actions.
