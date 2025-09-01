@@ -27,7 +27,7 @@ extra:
     );\n    } else if (diff > 3 * 3600000) {\n      countdown.classList.add(\"badge-yellow\"\
     );\n    } else {\n      countdown.classList.add(\"badge-red\");\n    }\n  }, 60000);\n\
     </script>\n"
-  COUNTDOWN_END: '2025-09-02T03:00:00Z'
+  COUNTDOWN_END: '2025-09-02T19:52:34+00:00'
 theme:
   name: material
   custom_dir: overrides
