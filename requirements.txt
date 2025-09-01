@@ -2,7 +2,7 @@ mkdocs>=1.6.0
 mkdocs-material[recommended,imaging]>=9.5.0
 mkdocs-macros-plugin>=1.0.5
 mkdocs-gen-files>=0.5.0
-git+https://github.com/chikamichi/mkdocs-copy.git
+git+https://github.com/anguy079/mkdocs-copy.git
 
 
 # Core MkDocs packages
