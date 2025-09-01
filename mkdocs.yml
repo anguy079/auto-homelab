@@ -25,7 +25,7 @@ extra:
   DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
-  COUNTDOWN_END: '2025-09-02T22:14:44+00:00'
+  COUNTDOWN_END: '2025-09-02T23:02:34+00:00'
 theme:
   name: material
   custom_dir: overrides
@@ -38,4 +38,3 @@ markdown_extensions:
     emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
 nav:
 - ':droplet: Hydration Preview': index.md
-- ':file: Variable Test': variable-test.md
