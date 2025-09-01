@@ -63,3 +63,52 @@ Add this to any `.md` file:
 - [Hydration & Cleanup Workflows](docs/mkdocs/mkdocs-workflows.md)
 
 ---
+
+<details><summary>📂 Repository Structure & File Purpose</summary>
+
+auto-homelab/
+├── [.github/](.github "GitHub-specific configuration")  
+│   └── [workflows/](.github/workflows "CI/CD automation workflows")  
+│       ├── [cleanup.yml](.github/workflows/cleanup.yml "Scheduled cleanup of hydrated docs")  
+│       └── [hydrate.yml](.github/workflows/hydrate.yml "Builds & deploys docs for 24h preview")  
+├── [docs/](docs "Documentation source files")  
+│   ├── [github-template-forking.md](docs/github-template-forking.md "Guide for forking & onboarding")  
+│   ├── [mkdocs-overview.md](docs/mkdocs-overview.md "MkDocs setup & usage overview")  
+│   ├── [mkdocs-plugins.md](docs/mkdocs-plugins.md "Plugin list & configuration notes")  
+│   ├── [mkdocs-variables.md](docs/mkdocs-variables.md "Variable usage in mkdocs.yml")  
+│   ├── [mkdocs-workflows.md](docs/mkdocs-workflows.md "Hydration & cleanup workflow details")  
+│   ├── [sync-guide.md](docs/sync-guide.md "Repo sync & update instructions")  
+│   └── [index.md](docs/index.md "Docs landing page")  
+├── [services/](services "Service-specific docs/configs")  
+│   └── [radarr/](services/radarr "Radarr service documentation")  
+├── [stylesheets/](stylesheets "Custom CSS for MkDocs theme")  
+│   └── [extra.css](stylesheets/extra.css "Overrides & visual tweaks")  
+├── [tmp/](tmp "Temporary build artifacts (ignored in CI)")  
+├── [overrides/](overrides "MkDocs theme overrides")  
+│   └── [.icons/](overrides/.icons "Custom SVG icons for services")  
+│       ├── [plex.svg](overrides/.icons/plex.svg "Plex service icon")  
+│       ├── [radarr.svg](overrides/.icons/radarr.svg "Radarr service icon")  
+│       └── [sonarr.svg](overrides/.icons/sonarr.svg "Sonarr service icon")  
+├── [scripts/](scripts "Python automation scripts")  
+│   ├── [__init__.py](scripts/__init__.py "Marks scripts as a package")  
+│   ├── [gen_docs.py](scripts/gen_docs.py "Generates base documentation")  
+│   ├── [gen_hydrated_docs.py](scripts/gen_hydrated_docs.py "Generates hydrated (preview) docs")  
+│   ├── [gen_index.py](scripts/gen_index.py "Builds index.md dynamically")  
+│   ├── [gen_nav.py](scripts/gen_nav.py "Generates navigation structure")  
+│   └── [gen_service_docs.py](scripts/gen_service_docs.py "Creates service-specific docs")  
+├── [README.md](README.md "Project overview & usage instructions")  
+├── [mkdocs.yml](mkdocs.yml "MkDocs configuration file")  
+└── [requirements.txt](requirements.txt "Pinned Python dependencies for reproducibility")
+
+</details>
+
+---
+
+<details><summary>📂 Repository Structure & File Purpose</summary>
+
+<!-- REPO-TREE:START -->
+<!-- REPO-TREE:END -->
+
+</details>
+
+---
