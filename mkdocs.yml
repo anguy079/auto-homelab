@@ -1,81 +1,44 @@
 site_name: Auto Homelab Docs
-
-# Folder to hydrate from (relative to repo root)
 docs_dir: docs/tmp
-
-# Optional: where to output the built site
-# site_dir: site  # default is 'site'
-
-# Plugins to enable
 plugins:
-  - search
-  - macros
-  - mkdocs-copy  # mkdocs-copy plugin optional: for relocating hydrated files
-  - gen-files:
-      scripts:
-        - scripts/gen_docs.py              # scaffolds base Markdown templates
-        - scripts/gen_service_docs.py
-        - scripts/gen_index.py             # creates hydration index if missing
-        - scripts/gen_hydrated_docs.py     # injects countdown into hydrated .md files
-        - scripts/gen_nav.py
-
-# Variables for substitution
+- search
+- macros
+- mkdocs-copy
+- gen-files:
+    scripts:
+    - scripts/gen_docs.py
+    - scripts/gen_service_docs.py
+    - scripts/gen_index.py
+    - scripts/gen_hydrated_docs.py
+    - scripts/gen_nav.py
 extra:
   GH_USERNAME: anguy079
   FORK_NAME: lsio-docker-radarr
   REPO_ORIGIN: linuxserver/docker-radarr
-  DELETE_AFTER_DAYS: 1  # used in cleanup logic
+  DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
-  # WORKFLOW_FILE: sync-lsio-docker-radarr.yml  # not in template file
-  COUNTDOWN_SNIPPET: |
-    <div id="countdown" class="countdown-badge">⏳ Calculating...</div>
-    <script>
-      const endTime = new Date("{{ COUNTDOWN_END }}");
-      const countdown = document.getElementById("countdown");
-      setInterval(() => {
-        const now = new Date();
-        const diff = endTime - now;
-        const hours = Math.floor(diff / 3600000);
-        const minutes = Math.floor((diff % 3600000) / 60000);
-  
-        countdown.textContent = `⏳ Expires in: ${hours}h ${minutes}m`;
-  
-        countdown.classList.remove("badge-green", "badge-yellow", "badge-red");
-        if (diff > 12 * 3600000) {
-          countdown.classList.add("badge-green");
-        } else if (diff > 3 * 3600000) {
-          countdown.classList.add("badge-yellow");
-        } else {
-          countdown.classList.add("badge-red");
-        }
-      }, 60000);
-    </script>
-
-  COUNTDOWN_END: "2025-09-02T03:00:00Z"  # used in countdown timer
-
-# Optional: theme settings
+  COUNTDOWN_SNIPPET: "<div id=\"countdown\" class=\"countdown-badge\">\u23F3 Calculating...</div>\n\
+    <script>\n  const endTime = new Date(\"{{ COUNTDOWN_END }}\");\n  const countdown\
+    \ = document.getElementById(\"countdown\");\n  setInterval(() => {\n    const\
+    \ now = new Date();\n    const diff = endTime - now;\n    const hours = Math.floor(diff\
+    \ / 3600000);\n    const minutes = Math.floor((diff % 3600000) / 60000);\n\n \
+    \   countdown.textContent = `\u23F3 Expires in: ${hours}h ${minutes}m`;\n\n  \
+    \  countdown.classList.remove(\"badge-green\", \"badge-yellow\", \"badge-red\"\
+    );\n    if (diff > 12 * 3600000) {\n      countdown.classList.add(\"badge-green\"\
+    );\n    } else if (diff > 3 * 3600000) {\n      countdown.classList.add(\"badge-yellow\"\
+    );\n    } else {\n      countdown.classList.add(\"badge-red\");\n    }\n  }, 60000);\n\
+    </script>\n"
+  COUNTDOWN_END: '2025-09-02T03:00:00Z'
 theme:
   name: material
   custom_dir: overrides
   extra_css:
-    - stylesheets/extra.css
-#   palette:
-#     primary: blue
-#     accent: pink
-
+  - stylesheets/extra.css
 markdown_extensions:
-  - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji ''
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
-      
-# Optional: navigation structure
+- attr_list
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji ''
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
 nav:
-  - Hydration Preview: index.md
-#  - MkDocs:
-#      - Overview: docs/mkdocs/mkdocs-overview.md
-#      - Getting Started: docs/mkdocs/README.md
-#  - Templates:
-#      - Forking Guide: docs/github/template-forking.md
-#      - Radarr Sync: docs/services/radarr/sync-guide.md
+- ':droplet: Hydration Preview': index.md
