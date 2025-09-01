@@ -44,11 +44,18 @@ extra:
   COUNTDOWN_END: "2025-09-02T03:00:00Z"  # used in countdown timer
 
 # Optional: theme settings
-# theme:
-#   name: material
+theme:
+  name: material
+  custom_dir: overrides
 #   palette:
 #     primary: blue
 #     accent: pink
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 # Optional: navigation structure
 nav:
