@@ -25,17 +25,6 @@ extra:
   DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
-  COUNTDOWN_SNIPPET: "<div id=\"countdown\" class=\"countdown-badge\">\u23F3 Calculating...</div>\n\
-    <script>\n  const endTime = new Date(\"{{ COUNTDOWN_END }}\");\n  const countdown\
-    \ = document.getElementById(\"countdown\");\n  setInterval(() => {\n    const\
-    \ now = new Date();\n    const diff = endTime - now;\n    const hours = Math.floor(diff\
-    \ / 3600000);\n    const minutes = Math.floor((diff % 3600000) / 60000);\n\n \
-    \   countdown.textContent = `\u23F3 Expires in: ${hours}h ${minutes}m`;\n\n  \
-    \  countdown.classList.remove(\"badge-green\", \"badge-yellow\", \"badge-red\"\
-    );\n    if (diff > 12 * 3600000) {\n      countdown.classList.add(\"badge-green\"\
-    );\n    } else if (diff > 3 * 3600000) {\n      countdown.classList.add(\"badge-yellow\"\
-    );\n    } else {\n      countdown.classList.add(\"badge-red\");\n    }\n  }, 60000);\n\
-    </script>\n"
   COUNTDOWN_END: '2025-09-02T22:14:44+00:00'
 theme:
   name: material
