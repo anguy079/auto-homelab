@@ -44,17 +44,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Set dynamic countdown end time
+      - name: Set dynamic variables in mkdocs.yml
         run: |
           HOURS=${{ github.event.inputs.delete_after_hours }}
-          # Calculate the future time in ISO 8601 format (e.g., 2025-09-02T03:00:00Z)
           END_TIME=$(date -u -d "+$HOURS hours" -I'seconds')
-          # Use sed to replace the placeholder in mkdocs.yml
-          # Add this line to update the site_url
-          sed -i "s|site_url:.*|site_url: ${{ env.SITE_URL }}|" mkdocs.yml
-          # The | separator is used to avoid issues with slashes in the replacement string
+          
+          # Use shell syntax ($SITE_URL) to access the environment variable
+          sed -i "s|site_url:.*|site_url: $SITE_URL|" mkdocs.yml
           sed -i "s|COUNTDOWN_END:.*|COUNTDOWN_END: '${END_TIME}'|" mkdocs.yml
+          
           echo "Set COUNTDOWN_END to ${END_TIME}"
+          echo "Set site_url to $SITE_URL"
 
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
