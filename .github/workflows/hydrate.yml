@@ -56,6 +56,10 @@ jobs:
           echo "Set COUNTDOWN_END to ${END_TIME}"
           echo "Set site_url to $SITE_URL"
 
+          echo "--- Listing all files in repository ---"
+          ls -R
+
+
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
 
