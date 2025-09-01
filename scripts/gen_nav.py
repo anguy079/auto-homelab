@@ -41,6 +41,7 @@ for folder, entries in grouped.items():
         folder_title = folder_icons.get(folder.lower(), f":folder: {folder.title()}")
         nav.append({folder_title: entries})
 
-config = yaml.safe_load(mkdocs_path.read_text())
+# Use yaml.load with FullLoader to handle Python-specific tags
+config = yaml.load(mkdocs_path.read_text(), Loader=yaml.FullLoader)
 config["nav"] = nav
 mkdocs_path.write_text(yaml.dump(config, sort_keys=False))
