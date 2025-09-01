@@ -1,0 +1,28 @@
+name: Scheduled Cleanup
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour
+
+jobs:
+  cleanup-temp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Check Countdown Expiry
+        run: |
+          END=$(date -u -d "$(grep COUNTDOWN_END mkdocs.yml | cut -d '"' -f2)" +"%s")
+          NOW=$(date -u +"%s")
+          if [ "$NOW" -ge "$END" ]; then
+            git rm -rf tmp/*
+            sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **Not active**|" README.md
+            sed -i "s|⏳ Expires in: .*|⏳ Expires in: **Expired**|" README.md
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+            git commit -am "Cleanup expired hydration"
+            git push
+          else
+            echo "Hydration still active. No cleanup needed."
+          fi
