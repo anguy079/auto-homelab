@@ -9,7 +9,7 @@ on:
         default: '24'
 
 jobs:
-  hydrate-deploy-cleanup:
+  hydrate-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -24,12 +24,18 @@ jobs:
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force -f mkdocs.yml
 
-      - name: Schedule Cleanup
+      - name: Update README Countdown
         run: |
-          echo "#!/bin/bash
-          sleep $(( ${{ github.event.inputs.delete_after_hours }} * 3600 ))
-          git rm -rf tmp/*
-          git commit -m 'Cleanup hydrated files'
-          git push" > cleanup.sh
-          chmod +x cleanup.sh
-          nohup ./cleanup.sh &
+          START=$(date -u +"%b %d, %Y @ %H:%M UTC")
+          HOURS=${{ github.event.inputs.delete_after_hours }}
+          END=$(date -u -d "+$HOURS hours" +"%s")
+          NOW=$(date -u +"%s")
+          REMAIN=$((END - NOW))
+          H=$((REMAIN / 3600))
+          M=$(((REMAIN % 3600) / 60))
+          sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$START**|" README.md
+          sed -i "s|⏳ Expires in: .*|⏳ Expires in: **${H}h ${M}m** (auto-cleanup scheduled)|" README.md
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -am "Update hydration timestamp and countdown"
+          git push
