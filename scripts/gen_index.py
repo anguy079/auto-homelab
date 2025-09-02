@@ -1,9 +1,10 @@
-import mkdocs_gen_files
 import shutil
 
-# Copy the main index page from the safe templates directory
+# This script now just copies the template.
+# All other logic is handled by other scripts or plugins.
 try:
     shutil.copyfile("docs/templates/index.md", "docs/tmp/index.md")
-    mkdocs_gen_files.set_edit_path("docs/tmp/index.md", "docs/templates/index.md")
+    print("Successfully copied index.md to docs/tmp/")
 except FileNotFoundError:
-    print("Warning: docs/templates/index.md not found.")
+    print("ERROR: Source file docs/templates/index.md not found.")
+    exit(1) # Exit with an error to fail the build
