@@ -10,6 +10,8 @@ hydration_settings:
   # Set to 0 to keep the site up indefinitely until cleaned manually.
   # Example: default_hours: 24
   default_hours: "1"
+  # Timezone for displaying the expiration time in the README.md.
+  timezone: "America/Los_Angeles"
 
 variables:
   # This section defines variables for use in your Markdown files.
