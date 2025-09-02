@@ -50,12 +50,14 @@ jobs:
           if [ "$HOURS" -eq 0 ]; then
             END_TIME="2099-12-31T23:59:59Z"
             README_EXPIRY="**Indefinite**"
+            HYDRATE_BADGE_TEXT="Hydrate%20(Indefinite)"
           else
             END_TIME=$(date -u -d "+$HOURS hours" -I'seconds')
-            # Read timezone from config and format the expiration time for the README
             TZ=$(yq '.hydration_settings.timezone' config.yml)
+            START_DISPLAY=$(TZ="$TZ" date -u +"%b %d, %Y @ %I:%M %p %Z")
             EXPIRY_DISPLAY=$(TZ="$TZ" date -d "@$(date -d "$END_TIME" +%s)" +"%b %d, %Y @ %I:%M %p %Z")
-            README_EXPIRY="**$EXPIRY_DISPLAY**"
+            README_EXPIRY="on **$EXPIRY_DISPLAY**"
+            HYDRATE_BADGE_TEXT="Hydrate%20(${HOURS}h)"
           fi
 
           # --- Apply Variables to mkdocs.yml ---
@@ -65,9 +67,9 @@ jobs:
           sed -i "s|COUNTDOWN_END_PLACEHOLDER|$END_TIME|" mkdocs.yml
 
           # --- Update README ---
-          START_DISPLAY=$(date -u +"%b %d, %Y @ %H:%M UTC")
           sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$START_DISPLAY**|" README.md
-          sed -i "s|⏳ Expires in: .*|⏳ Expires on: $README_EXPIRY|" README.md
+          sed -i "s|⏳ Expires on: .*|⏳ Expires on: $README_EXPIRY|" README.md
+          sed -i "s|Hydrate%20(24h)|${HYDRATE_BADGE_TEXT}|g" README.md
 
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
