@@ -15,16 +15,12 @@ jobs:
       contents: write
       pages: write
       id-token: write
-    # Pass GitHub context to the Python script as environment variables
-    env:
-      GITHUB_REPOSITORY: ${{ github.repository }}
-      GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-      GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
-      GITHUB_SERVER_URL: ${{ github.server_url }}
-      INPUT_DELETE_AFTER_HOURS: ${{ github.event.inputs.delete_after_hours }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -43,21 +39,47 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Configure Site and README
-        run: python scripts/configure_mkdocs.py # <-- This one script does all the configuration
+        run: |
+          # --- Set Hydration Duration ---
+          if [ -n "${{ github.event.inputs.delete_after_hours }}" ]; then
+            HOURS=${{ github.event.inputs.delete_after_hours }}
+          else
+            HOURS=$(yq '.hydration_settings.default_hours' config.yml)
+          fi
+
+          if [ "$HOURS" -eq 0 ]; then
+            END_TIME="2099-12-31T23:59:59Z"
+            README_EXPIRY="**Indefinite**"
+          else
+            END_TIME=$(date -u -d "+$HOURS hours" -I'seconds')
+            # Read timezone from config and format the expiration time for the README
+            TZ=$(yq '.hydration_settings.timezone' config.yml)
+            EXPIRY_DISPLAY=$(TZ="$TZ" date -d "@$(date -d "$END_TIME" +%s)" +"%b %d, %Y @ %I:%M %p %Z")
+            README_EXPIRY="**$EXPIRY_DISPLAY**"
+          fi
+
+          # --- Apply Variables to mkdocs.yml ---
+          sed -i "s|SITE_URL_PLACEHOLDER|https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}|" mkdocs.yml
+          sed -i "s|REPO_FULL_NAME_PLACEHOLDER|${{ github.repository }}|" mkdocs.yml
+          sed -i "s|REPO_OWNER_PLACEHOLDER|${{ github.repository_owner }}|" mkdocs.yml
+          sed -i "s|COUNTDOWN_END_PLACEHOLDER|$END_TIME|" mkdocs.yml
+
+          # --- Update README ---
+          START_DISPLAY=$(date -u +"%b %d, %Y @ %H:%M UTC")
+          sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$START_DISPLAY**|" README.md
+          sed -i "s|⏳ Expires in: .*|⏳ Expires on: $README_EXPIRY|" README.md
 
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
 
       - name: Push README changes
         run: |
-          # (This step is no longer needed as the Python script can handle it)
-          # For now, we'll leave it, but it could be integrated into configure_mkdocs.py
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           if git diff --quiet; then
             echo "No changes to commit."
           else
-            git commit -am "Docs: Update config and README"
+            git commit -am "Docs: Update hydration timestamp"
             git push
           fi
 
