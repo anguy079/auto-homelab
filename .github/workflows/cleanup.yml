@@ -9,44 +9,35 @@ jobs:
   cleanup-expired-docs:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required to push changes
+      contents: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
+      - name: Install yq & PyYAML
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
+          pip install PyYAML
 
-      - name: Install PyYAML
-        run: pip install PyYAML
-
-      - name: Check Expiry and Cleanup
+      - name: Check Expiry and Prepare Cleanup
         id: check_expiry
         run: |
           python -c "
           import yaml, sys
           from datetime import datetime, timezone
-
           try:
               with open('mkdocs.yml', 'r') as f:
                   config = yaml.safe_load(f)
                   end_time_str = config.get('extra', {}).get('COUNTDOWN_END')
           except FileNotFoundError:
-              print('mkdocs.yml not found. Exiting.')
               sys.exit(0)
-          
-          if not end_time_str:
-              print('COUNTDOWN_END not found in mkdocs.yml. Exiting.')
+          if not end_time_str or 'PLACEHOLDER' in end_time_str:
               sys.exit(0)
-
           end_time = datetime.fromisoformat(end_time_str.replace('Z', '+00:00'))
           now_time = datetime.now(timezone.utc)
-
           if now_time >= end_time:
               print('Hydration has expired. Cleaning up files.')
-              sys.exit(1) # Exit with error code to signal cleanup
+              sys.exit(1)
           else:
               print('Hydration still active. No cleanup needed.')
               sys.exit(0)
@@ -55,11 +46,13 @@ jobs:
       - name: Perform Cleanup
         if: env.CLEANUP_NEEDED == 'true'
         run: |
-          echo "Proceeding with cleanup..."
-          git rm -rf --ignore-unmatch docs/tmp/*
-          mkdir -p docs/tmp/
-          touch docs/tmp/.gitkeep
-          git add -f docs/tmp/.gitkeep
+          # Read the destination directory from config.yml to ensure we only clean the correct folder
+          DEST_DIR=$(yq '.hydration_tasks[0].destination' config.yml)
+          echo "Proceeding with cleanup of directory: $DEST_DIR"
+          git rm -rf --ignore-unmatch $DEST_DIR/*
+          mkdir -p $DEST_DIR/
+          touch $DEST_DIR/.gitkeep
+          git add -f $DEST_DIR/.gitkeep
           sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **Not active**|" README.md
           sed -i "s|⏳ Expires in: .*|⏳ Expires in: **Expired**|" README.md
           git config user.name "GitHub Actions"
