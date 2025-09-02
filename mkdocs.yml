@@ -7,12 +7,12 @@ plugins:
     load_jinja_environment:
     - builtins
     - env
+- awesome-pages
 - mkdocs-copy
 - gen-files:
     scripts:
     - scripts/gen_docs.py
     - scripts/gen_service_docs.py
-    - scripts/gen_nav.py
     - scripts/gen_debug_page.py
 extra:
   REPO_FULL_NAME: '{{ env.REPO_FULL_NAME }}'
@@ -38,5 +38,3 @@ markdown_extensions:
 - pymdownx.emoji:
     emoji_index: !!python/name:material.extensions.emoji.twemoji ''
     emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
-nav:
-- ':droplet: Hydration Preview': index.md
