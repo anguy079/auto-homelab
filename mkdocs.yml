@@ -1,19 +1,24 @@
 site_name: Auto Homelab Docs
-site_url: https://anguy079.github.io/auto-homelab
+site_url: https://placeholder.com # This is a placeholder updated by the workflow
+
 docs_dir: docs/tmp
+
 plugins:
-- search
-- macros:
-    load_jinja_environment:
-    - builtins
-    - env
-- awesome-pages
-- mkdocs-copy
-- gen-files:
-    scripts:
-    - scripts/gen_docs.py
-    - scripts/gen_service_docs.py
-    - scripts/gen_debug_page.py
+  - search
+  - macros:
+      # FIXED: Correct syntax for plugin options
+      load_jinja_environment:
+        - "builtins"
+        - "env"
+  - awesome-pages
+  - mkdocs-copy
+  - gen-files:
+      scripts:
+        - scripts/gen_docs.py
+        - scripts/gen_service_docs.py
+        - scripts/gen_index.py # ADDED BACK: This is essential for your homepage
+        - scripts/gen_debug_page.py
+
 extra:
   REPO_FULL_NAME: '{{ env.REPO_FULL_NAME }}'
   REPO_OWNER: '{{ env.REPO_OWNER }}'
@@ -27,14 +32,27 @@ extra:
   DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
-  COUNTDOWN_END: '2025-09-03T04:22:04+00:00'
+  COUNTDOWN_END: '2025-01-01T00:00:00Z'
+
 theme:
   name: material
   custom_dir: overrides
   extra_css:
-  - stylesheets/extra.css
+    - stylesheets/extra.css
+
 markdown_extensions:
-- attr_list
-- pymdownx.emoji:
-    emoji_index: !!python/name:material.extensions.emoji.twemoji ''
-    emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
+  - attr_list
+  - pymdownx.emoji:
+      # FIXED: Removed extra quotes
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  # ADDED: Recommended extensions for code blocks, diagrams, and tabs
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
