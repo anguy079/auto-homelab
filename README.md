@@ -4,6 +4,7 @@
 ![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
 
 🕒 Hydrated on: **Sep 02, 2025 @ 07:16 UTC**
+
 ⏳ Expires on: **Sep 02, 2025 @ 01:07 AM PDT**
 
 ---
