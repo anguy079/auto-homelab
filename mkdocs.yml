@@ -27,7 +27,7 @@ extra:
   DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
-  COUNTDOWN_END: '2025-09-03T04:04:08+00:00'
+  COUNTDOWN_END: '2025-09-03T04:22:04+00:00'
 theme:
   name: material
   custom_dir: overrides
