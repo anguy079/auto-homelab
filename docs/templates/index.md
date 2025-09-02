@@ -9,7 +9,7 @@ Below is the directory of currently hydrated templates:
   {% for item in items %}
     <li>
       {% if item.url %}
-        <a href="{{ item.url | url }}">{{ item.title }}</a>
+        <a href="{{ item.url }}">{{ item.title }}</a>
       {% else %}
         <strong>{{ item.title }}</strong>
       {% endif %}
@@ -22,18 +22,3 @@ Below is the directory of currently hydrated templates:
 {% endmacro %}
 
 {{ render_nav_items(navigation) }}
-
----
-
-<div id="countdown"></div>
-<script>
-  const endTime = new Date("{{ COUNTDOWN_END }}");
-  const countdown = document.getElementById("countdown");
-  setInterval(() => {
-    const now = new Date();
-    const diff = endTime - now;
-    const hours = Math.floor(diff / 3600000);
-    const minutes = Math.floor((diff % 3600000) / 60000);
-    countdown.textContent = `Global hydration expires in: ${hours}h ${minutes}m`;
-  }, 60000);
-</script>
