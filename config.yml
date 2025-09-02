@@ -1,0 +1,41 @@
+# ===================================================================
+#                    Project Configuration File
+# ===================================================================
+# This is your single source of truth for all settings. The automation
+# workflows and scripts will read their settings from this file.
+
+hydration_settings:
+  # Default duration in hours for the deployed temporary site.
+  # This value is used when the workflow is run without a manual input.
+  # Set to 0 to keep the site up indefinitely until cleaned manually.
+  # Example: default_hours: 24
+  default_hours: 1
+
+variables:
+  # This section defines variables for use in your Markdown files.
+  # The workflow will use the auto-populated GitHub values for any
+  # variable that is left blank or null below. You can fill in a 
+  # value here to override the GitHub default, which is useful for local testing.
+  # Ensure values with special characters are wrapped in quotes.
+
+  # --- Auto-Populated Variables (leave blank to use GitHub defaults) ---
+  REPO_FULL_NAME:
+  REPO_OWNER:
+  REPO_NAME:
+  REPO_URL:
+
+  # --- User-Defined Variables ---
+  FORK_NAME: "lsio-docker-radarr"
+
+# This section defines all hydration tasks.
+# The `scripts/hydrate.py` script will execute these tasks in order.
+hydration_tasks:
+  - type: "copy_recursive"
+    source: "docs/templates"
+    destination: "docs/tmp"
+    description: "Copy all base templates to the temporary build directory."
+
+  - type: "generate_services"
+    data_file: "data/services.yml"
+    destination: "docs/tmp"
+    description: "Generate Markdown files for each service defined in data/services.yml."
