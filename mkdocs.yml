@@ -1,27 +1,27 @@
 site_name: Auto Homelab Docs
-# site_url will be filled in by the configuration script
-
 docs_dir: docs/tmp
-
 plugins:
-  - search
-  - macros
-  - awesome-pages
-  - gen-files:
-      scripts:
-        - scripts/hydrate.py
-
-# The 'extra' block below will be populated automatically by scripts/configure_mkdocs.py
-extra: {}
-
+- search
+- macros
+- awesome-pages
+- gen-files:
+    scripts:
+    - scripts/hydrate.py
+extra:
+  REPO_FULL_NAME: anguy079/auto-homelab
+  REPO_OWNER: anguy079
+  REPO_NAME: auto-homelab
+  REPO_URL: https://github.com/anguy079/auto-homelab
+  FORK_NAME: lsio-docker-radarr
+  COUNTDOWN_END: '2025-09-02T07:41:06.007474Z'
 theme:
   name: material
   custom_dir: overrides
-
 markdown_extensions:
-  - attr_list
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.superfences
-  - pymdownx.tabbed:
-      alternate_style: true
+- attr_list
+- pymdownx.highlight:
+    anchor_linenums: true
+- pymdownx.superfences
+- pymdownx.tabbed:
+    alternate_style: true
+site_url: https://anguy079.github.io/auto-homelab
