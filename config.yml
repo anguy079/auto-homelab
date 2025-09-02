@@ -9,7 +9,7 @@ hydration_settings:
   # This value is used when the workflow is run without a manual input.
   # Set to 0 to keep the site up indefinitely until cleaned manually.
   # Example: default_hours: 24
-  default_hours: 1
+  default_hours: "1"
 
 variables:
   # This section defines variables for use in your Markdown files.
