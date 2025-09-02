@@ -3,4 +3,5 @@ mkdocs-material[recommended,imaging]==9.5.21
 mkdocs-macros-plugin==1.3.9
 mkdocs-gen-files==0.5.0
 PyYAML==6.0.1
+mkdocs-awesome-pages-plugin==2.9.2
 git+https://github.com/anguy079/mkdocs-copy.git
