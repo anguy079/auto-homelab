@@ -2,17 +2,18 @@ site_name: Auto Homelab Docs
 site_url: https://anguy079.github.io/auto-homelab
 docs_dir: docs/tmp
 plugins:
-- search
-- macros
-- mkdocs-copy
-- gen-files:
-    scripts:
-    - scripts/gen_docs.py
-    - scripts/gen_service_docs.py
-    - scripts/gen_index.py
-    - scripts/gen_hydrated_docs.py
-    - scripts/gen_nav.py
-    - scripts/gen_debug_page.py
+  - search
+  - macros
+  - mkdocs-copy
+  - gen-files:
+      scripts:
+        - scripts/gen_docs.py
+        - scripts/gen_service_docs.py
+        - scripts/gen_index.py
+        # gen_hydrated_docs.py has been removed
+        - scripts/gen_nav.py
+        - scripts/gen_debug_page.py
+
 extra:
   REPO_FULL_NAME: '{{ env.REPO_FULL_NAME }}'
   REPO_OWNER: '{{ env.REPO_OWNER }}'
