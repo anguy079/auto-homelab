@@ -33,13 +33,22 @@
 
 ---
 
+[![Hydrate (24h)](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml) [![View Docs](https://img.shields.io/badge/Website-Online-green)](https://anguy079.github.io/auto-homelab/) [![Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
+
+🕒 Hydrated on: **Not active**
+⏳ Expires on: **Expired**
+
+---
+
 # 🧪 Auto Homelab Templates
 
 This repo provides modular, privacy-safe templates for onboarding, hydration, and deployment using MkDocs and GitHub Actions.
 
-## 🧪 Getting Started
+## 🚀 Getting Started
 
-To hydrate and deploy your docs:
+To hydrate and deploy your docs, simply run the **Hydrate & Deploy Docs** workflow from the Actions tab.
+
+> You can override the default timer or trigger cleanup manually via the workflow dispatch inputs.
 
 ### ✅ Requirements
 
@@ -61,25 +70,6 @@ Click the button below to hydrate and deploy for 24h:
 > You can override the timer or trigger cleanup manually via the Actions tab.
 
 ---
-
-### ⏱️ Displaying Countdown in Hydrated Pages
-
-Add this to any `.md` file:
-
-```html
-<div id="countdown"></div>
-<script>
-  const endTime = new Date("{{ COUNTDOWN_END }}");
-  const countdown = document.getElementById("countdown");
-  setInterval(() => {
-    const now = new Date();
-    const diff = endTime - now;
-    const hours = Math.floor(diff / 3600000);
-    const minutes = Math.floor((diff % 3600000) / 60000);
-    countdown.textContent = `Time remaining: ${hours}h ${minutes}m`;
-  }, 60000);
-</script>
-```
 
 ## 📚 Additional Docs
 
