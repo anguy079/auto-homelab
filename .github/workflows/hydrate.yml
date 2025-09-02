@@ -62,6 +62,11 @@ jobs:
           echo "--- Listing all files in repository ---"
           ls -R
 
+      - name: DEBUG - Show mkdocs.yml content
+        run: |
+          echo "--- Displaying content of mkdocs.yml ---"
+          cat mkdocs.yml
+          echo "--- End of mkdocs.yml ---"
 
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
