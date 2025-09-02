@@ -1,49 +1,42 @@
 site_name: Auto Homelab Docs
-site_url: https://placeholder.com # This is a placeholder updated by the workflow
-
+site_url: https://anguy079.github.io/auto-homelab
 docs_dir: docs/tmp
-
 plugins:
-  - search
-  - macros:
-      load_jinja_environment:
-        - "builtins"
-        - "env"
-  - mkdocs-copy
-  - gen-files:
-      scripts:
-        - scripts/gen_docs.py
-        - scripts/gen_service_docs.py
-        # gen_index.py is now a separate step in the workflow
-        - scripts/gen_nav.py
-        - scripts/gen_debug_page.py
-
+- search
+- macros:
+    load_jinja_environment:
+    - builtins
+    - env
+- mkdocs-copy
+- gen-files:
+    scripts:
+    - scripts/gen_docs.py
+    - scripts/gen_service_docs.py
+    - scripts/gen_nav.py
+    - scripts/gen_debug_page.py
 extra:
-  REPO_FULL_NAME: "{{ env.REPO_FULL_NAME }}"
-  REPO_OWNER: "{{ env.REPO_OWNER }}"
-  REPO_NAME: "{{ env.REPO_NAME }}"
-  REPO_URL: "{{ env.REPO_URL }}"
-  REF_NAME: "{{ env.REF_NAME }}"
-  LAST_UPDATED_BY: "{{ env.LAST_UPDATED_BY }}"
-  COMMIT_SHA: "{{ env.COMMIT_SHA }}"
-  WORKFLOW_RUN: "{{ env.WORKFLOW_RUN }}"
+  REPO_FULL_NAME: '{{ env.REPO_FULL_NAME }}'
+  REPO_OWNER: '{{ env.REPO_OWNER }}'
+  REPO_NAME: '{{ env.REPO_NAME }}'
+  REPO_URL: '{{ env.REPO_URL }}'
+  REF_NAME: '{{ env.REF_NAME }}'
+  LAST_UPDATED_BY: '{{ env.LAST_UPDATED_BY }}'
+  COMMIT_SHA: '{{ env.COMMIT_SHA }}'
+  WORKFLOW_RUN: '{{ env.WORKFLOW_RUN }}'
   FORK_NAME: lsio-docker-radarr
   DELETE_AFTER_DAYS: 1
   TARGET_FOLDER: services/radarr
   WORKFLOW_FILE: hydrate.yml
-  COUNTDOWN_END: '2025-01-01T00:00:00Z'
-
+  COUNTDOWN_END: '2025-09-03T03:48:43+00:00'
 theme:
   name: material
   custom_dir: overrides
   extra_css:
-    - stylesheets/extra.css
-
+  - stylesheets/extra.css
 markdown_extensions:
-  - attr_list
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-
+- attr_list
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji ''
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
 nav:
-  - ':droplet: Hydration Preview': index.md
+- ':droplet: Hydration Preview': index.md
