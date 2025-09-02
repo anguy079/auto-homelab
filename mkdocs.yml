@@ -1,5 +1,5 @@
 site_name: Auto Homelab Docs
-#docs_dir: docs/tmp
+docs_dir: docs/tmp
 plugins:
 - search
 - macros
