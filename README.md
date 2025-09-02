@@ -3,9 +3,9 @@
 [![Override Timer](https://img.shields.io/badge/Override-Timer-orange)](/.github/workflows/hydrate.yml)
 ![Hydration Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)
 
-🕒 Hydrated on: **Sep 02, 2025 @ 07:16 UTC**
+🕒 Hydrated on: **Sep 02, 2025 @ 07:52 AM UTC**
 
-⏳ Expires on: **Sep 02, 2025 @ 01:07 AM PDT**
+⏳ Expires on: on **Sep 02, 2025 @ 01:52 AM PDT**
 
 ---
 
@@ -35,8 +35,8 @@
 
 [![Hydrate (24h)](https://img.shields.io/badge/Hydrate-24h-blue)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml) [![View Docs](https://img.shields.io/badge/Website-Online-green)](https://anguy079.github.io/auto-homelab/) [![Status](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml/badge.svg)](https://github.com/anguy079/auto-homelab/actions/workflows/hydrate.yml)
 
-🕒 Hydrated on: **Not active**
-⏳ Expires on: **Expired**
+🕒 Hydrated on: **Sep 02, 2025 @ 07:52 AM UTC**
+⏳ Expires on: on **Sep 02, 2025 @ 01:52 AM PDT**
 
 ---
 
