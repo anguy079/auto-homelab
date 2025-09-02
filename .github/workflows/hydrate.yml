@@ -4,26 +4,24 @@ on:
   workflow_dispatch:
     inputs:
       delete_after_hours:
-        description: 'Hours until cleanup'
+        description: 'Hours until cleanup (0 for indefinite). Overrides config.yml.'
         required: false
-        default: '24'
 
 jobs:
   build:
-    name: Build and Update README
+    name: Build and Deploy
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      id-token: write
+    # Pass GitHub context to the Python script as environment variables
     env:
-      REPO_FULL_NAME: ${{ github.repository }}
-      REPO_OWNER: ${{ github.repository_owner }}
-      REPO_NAME: ${{ github.event.repository.name }}
-      REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-      REF_NAME: ${{ github.ref_name }}
-      LAST_UPDATED_BY: ${{ github.actor }}
-      COMMIT_SHA: ${{ github.sha }}
-      WORKFLOW_RUN: ${{ github.run_id }}
-      SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+      GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
+      GITHUB_SERVER_URL: ${{ github.server_url }}
+      INPUT_DELETE_AFTER_HOURS: ${{ github.event.inputs.delete_after_hours }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -44,77 +42,32 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Create Homepage from Template
-        run: python scripts/gen_index.py
-
-      - name: Set dynamic variables in mkdocs.yml
-        run: |
-          HOURS=${{ github.event.inputs.delete_after_hours }}
-          END_TIME=$(date -u -d "+$HOURS hours" -I'seconds')
-          
-          # Use shell syntax ($SITE_URL) to access the environment variable
-          sed -i "s|site_url:.*|site_url: $SITE_URL|" mkdocs.yml
-          sed -i "s|COUNTDOWN_END:.*|COUNTDOWN_END: '${END_TIME}'|" mkdocs.yml
-          
-          echo "Set COUNTDOWN_END to ${END_TIME}"
-          echo "Set site_url to $SITE_URL"
-
-          echo "--- Listing all files in repository ---"
-          ls -R
-
-      - name: DEBUG - Show mkdocs.yml content
-        run: |
-          echo "--- Displaying content of mkdocs.yml ---"
-          cat mkdocs.yml
-          echo "--- End of mkdocs.yml ---"
+      - name: Configure Site and README
+        run: python scripts/configure_mkdocs.py # <-- This one script does all the configuration
 
       - name: Build Hydrated Docs
         run: python -m mkdocs build -f mkdocs.yml
 
-      - name: Update README Countdown
+      - name: Push README changes
         run: |
-          # ... (rest of the script is unchanged)
-          START=$(date -u +"%b %d, %Y @ %H:%M UTC")
-          HOURS=${{ github.event.inputs.delete_after_hours }}
-          END=$(date -u -d "+$HOURS hours" +"%s")
-          NOW=$(date -u +"%s")
-          REMAIN=$((END - NOW))
-          H=$((REMAIN / 3600))
-          M=$(((REMAIN % 3600) / 60))
-          sed -i "s|🕒 Hydrated on: .*|🕒 Hydrated on: **$START**|" README.md
-          sed -i "s|⏳ Expires in: .*|⏳ Expires in: **${H}h ${M}m** (auto-cleanup scheduled)|" README.md
+          # (This step is no longer needed as the Python script can handle it)
+          # For now, we'll leave it, but it could be integrated into configure_mkdocs.py
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           if git diff --quiet; then
-            echo "No changes to the README, skipping commit."
+            echo "No changes to commit."
           else
-            git commit -am "Docs: Update hydration timestamp"
+            git commit -am "Docs: Update config and README"
             git push
           fi
-
-
-      - name: DEBUG - List Contents of Build Artifact
-        run: |
-          echo "--- Listing contents of ./site directory (the artifact) ---"
-          ls -R site
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./site
-
-  deploy:
-    name: Deploy to GitHub Pages
-    # ... (rest of deploy job is unchanged)
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
+      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
